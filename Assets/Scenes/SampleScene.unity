@@ -582,8 +582,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7554a003bd11fe744b0345ec306ccbc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  defaultBulletPrefab: {fileID: 5822080819344044643, guid: 26d1778c56e78ad4a99de9ac532a61fa, type: 3}
   moveSpeed: 8
+  defaultBulletPrefab: {fileID: 5822080819344044643, guid: 26d1778c56e78ad4a99de9ac532a61fa, type: 3}
+  fireDelay: 0.2
 --- !u!61 &910352864
 BoxCollider2D:
   m_ObjectHideFlags: 0

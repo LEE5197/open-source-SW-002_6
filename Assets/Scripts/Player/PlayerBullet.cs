@@ -18,10 +18,13 @@ public class PlayerBullet : MonoBehaviour
         rigid.linearVelocity = Vector2.up * moveSpeed;
     }
 
+    // 총알의 충돌을 감지하기위한 함수
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // 플레이어가 발사한 총알은 플레이어를 무시하도록 설정
         if (collision.gameObject.tag=="Player") return;
 
-        Destroy(gameObject);
+        // 오브젝트 폴링 기법 사용을 위한 충돌 시 오브젝트 비활성화 설정
+        this.gameObject.SetActive(false);
     }
 }
