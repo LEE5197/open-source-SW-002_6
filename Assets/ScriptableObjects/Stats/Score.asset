@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScoreSO
   initialValue: 0
   minValue: 0
-  maxValue: 0
-  runtimeValue: 0
+  maxValue: 10000
+  runtimeValue: 1
