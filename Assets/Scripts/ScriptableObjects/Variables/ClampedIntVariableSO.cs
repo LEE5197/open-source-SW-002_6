@@ -11,9 +11,13 @@ public class ClampedIntVariableSO : ScriptableObject
     [SerializeField] protected int minValue;
     [Tooltip("최대값")]
     [SerializeField] protected int maxValue;
-    [Tooltip("현재값")]
-    [SerializeField]
+    [Tooltip("런타임 값. Play 모드에서 수정하여 테스트 가능")]
+    [SerializeField, InspectorName("Value")]
     protected int runtimeValue;
+
+    //인스펙터 변경 감지를 위한 캐시(직렬화하지 않음)
+    [NonSerialized] private int lastNotifiedValue;
+    [NonSerialized] private bool lastNotifiedInitialized;
 
     //runtimeValue 수정 시 호출되는 이벤트
     public event Action<int> OnValueChanged;
@@ -36,6 +40,8 @@ public class ClampedIntVariableSO : ScriptableObject
             {
                 int previous = runtimeValue;
                 runtimeValue = clamped;
+                lastNotifiedValue = runtimeValue;
+                lastNotifiedInitialized = true;
                 OnValueChanged?.Invoke(runtimeValue);
                 OnValueChangedHook(previous, runtimeValue);
             }
@@ -44,9 +50,6 @@ public class ClampedIntVariableSO : ScriptableObject
 
     protected virtual void OnEnable()
     {
-/*#if UNITY_EDITOR
-        if (!Application.isPlaying) return;
-#endif*/
         ResetValue();
     }
 
@@ -54,8 +57,33 @@ public class ClampedIntVariableSO : ScriptableObject
     public virtual void ResetValue()
     {
         runtimeValue = Mathf.Clamp(initialValue, minValue, maxValue);
+        lastNotifiedValue = runtimeValue;
+        lastNotifiedInitialized = true;
         OnValueChanged?.Invoke(runtimeValue);
     }
+
+#if UNITY_EDITOR
+    //인스펙터에서 Value를 직접 수정했을 때도 클램프 및 이벤트가 발생하도록 처리
+    protected virtual void OnValidate()
+    {
+        runtimeValue = Mathf.Clamp(runtimeValue, minValue, maxValue);
+
+        if (!Application.isPlaying) return;
+
+        if (lastNotifiedInitialized && lastNotifiedValue != runtimeValue)
+        {
+            int previous = lastNotifiedValue;
+            lastNotifiedValue = runtimeValue;
+            OnValueChanged?.Invoke(runtimeValue);
+            OnValueChangedHook(previous, runtimeValue);
+        }
+        else
+        {
+            lastNotifiedValue = runtimeValue;
+            lastNotifiedInitialized = true;
+        }
+    }
+#endif
 
     //파생 클래스에서 값 변경 직후 추가 처리를 하고 싶을 때 오버라이드.
     protected virtual void OnValueChangedHook(int previous, int current) { }
