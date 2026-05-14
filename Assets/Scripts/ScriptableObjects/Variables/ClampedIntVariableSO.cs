@@ -11,8 +11,9 @@ public class ClampedIntVariableSO : ScriptableObject
     [SerializeField] protected int minValue;
     [Tooltip("최대값")]
     [SerializeField] protected int maxValue;
-    [Tooltip("런타임 값")]
-    [SerializeField] protected int runtimeValue;
+    [Tooltip("현재값")]
+    [SerializeField]
+    protected int runtimeValue;
 
     //runtimeValue 수정 시 호출되는 이벤트
     public event Action<int> OnValueChanged;
@@ -43,9 +44,9 @@ public class ClampedIntVariableSO : ScriptableObject
 
     protected virtual void OnEnable()
     {
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
         if (!Application.isPlaying) return;
-#endif
+#endif*/
         ResetValue();
     }
 
