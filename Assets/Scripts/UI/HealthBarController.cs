@@ -23,10 +23,11 @@ public class HealthBarController : MonoBehaviour
         if (!health)
         {
             Debug.LogError("Health is null!");
+            enabled = false;
             return;
         }
         health.OnValueChanged += UIUpdate;
-        UIUpdate(0);
+        UIUpdate(health.Value);
     }
 
     void OnDisable()

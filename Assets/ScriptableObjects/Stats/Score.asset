@@ -15,4 +15,4 @@ MonoBehaviour:
   initialValue: 0
   minValue: 0
   maxValue: 10000
-  runtimeValue: 1
+  runtimeValue: 0
