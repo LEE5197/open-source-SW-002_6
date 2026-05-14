@@ -22,7 +22,8 @@ public class PlayerBullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // 플레이어가 발사한 총알은 플레이어를 무시하도록 설정
-        if (collision.gameObject.tag=="Player") return;
+        // 총알끼리도 부딫치지 않음
+        if (collision.gameObject.tag == "Player" || collision.gameObject.layer == 9) return;
 
         // 오브젝트 폴링 기법 사용을 위한 충돌 시 오브젝트 비활성화 설정
         this.gameObject.SetActive(false);
