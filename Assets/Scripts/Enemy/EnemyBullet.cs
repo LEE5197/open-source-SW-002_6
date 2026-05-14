@@ -21,6 +21,10 @@ public class EnemyBullet : MonoBehaviour
         if (playerTransform != null)
             bulletVec = (playerTransform.position - transform.position).normalized;
     }
+    private void OnDisable()
+    {
+        rigid.linearVelocity = Vector2.zero; //속도 초기화
+    }
 
     //방향으로 이동
     private void FixedUpdate()
@@ -33,6 +37,12 @@ public class EnemyBullet : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy") return; //적끼리는 무시
 
-        this.gameObject.SetActive(false);
+        if (collision.gameObject.layer == 6) //Player와 만나면 제거
+        {
+            this.gameObject.SetActive(false);
+        }
+
+        if (collision.gameObject.layer == 0) //Border와 만나면 제거
+            this.gameObject.SetActive(false);
     }
 }

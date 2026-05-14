@@ -4,17 +4,28 @@ using System.Collections.Generic;
 
 public class Enemy : MonoBehaviour
 {
+    private Rigidbody2D rigid;
+    private SpriteRenderer spriteRenderer;
+
     public GameObject enemyBullet; //적 bullet 프리팹
+    public float moveSpeed = 3.0f;
     public float fireDelay = 1f; //공격 속도
     public int bulletNum = 1; //연속으로 발사하는 총알 숫자 
 
     private List<GameObject> EnemyBulletList;
     private int curIdx = 0;
 
+    private void Awake()
+    {
+        rigid = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     void Start()
     {
         StartCoroutine(Fire(bulletNum)); //발사 시작
 
+        //풀링용 리스트
         EnemyBulletList = new List<GameObject>();
         for (int i = 0; i < 50; i++)
         {
@@ -22,6 +33,10 @@ public class Enemy : MonoBehaviour
             bullet.SetActive(false);
             EnemyBulletList.Add(bullet);
         }
+    }
+    private void FixedUpdate()
+    {
+        rigid.linearVelocity = transform.up * moveSpeed; //이동
     }
 
     IEnumerator Fire(int bulletNum)
@@ -41,12 +56,33 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    IEnumerator HitEffect()
+    {
+        moveSpeed = 0;
+
+        for (int i = 0; i < 2; i++)
+        {
+            spriteRenderer.enabled = false;
+            yield return new WaitForSeconds(0.1f);
+
+            spriteRenderer.enabled = true;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        Destroy(this.gameObject);
+    }
+
     // 총알의 충돌을 감지하기위한 함수
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Enemy") return;
 
-        // 오브젝트 폴링 기법 사용을 위한 충돌 시 오브젝트 비활성화 설정
-        this.gameObject.SetActive(false);
+        if (collision.gameObject.layer == 8) //PlayerBullet과 충돌시
+        {
+            StartCoroutine(HitEffect());
+        }
+
+        if (collision.gameObject.layer == 0) //Border와 만나면 제거
+            Destroy(this.gameObject);
     }
 }
