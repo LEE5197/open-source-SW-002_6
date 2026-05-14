@@ -12,8 +12,14 @@ public class EnemyBullet : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        if (playerTransform  != null )
-            bulletVec = (playerTransform.position - transform.position).normalized; //생성시에 방향 결정
+        if (playerTransform == null) //플레이어 위치 추가
+            playerTransform = GameObject.FindWithTag("Player").transform;
+    }
+
+    public void OnEnable() //활성화 시에 방향 결정
+    {
+        if (playerTransform != null)
+            bulletVec = (playerTransform.position - transform.position).normalized;
     }
 
     //방향으로 이동
@@ -27,6 +33,6 @@ public class EnemyBullet : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy") return; //적끼리는 무시
 
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 }

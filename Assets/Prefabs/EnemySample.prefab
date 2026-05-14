@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3451146163881278319}
   - component: {fileID: 6626820746765174564}
   - component: {fileID: 6830383731334680438}
-  - component: {fileID: 1390647299792424452}
   m_Layer: 7
   m_Name: EnemySample
   m_TagString: Enemy
@@ -106,6 +105,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 798f6bb9e36b1f44f8c3ab89098c6f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  enemyBullet: {fileID: 5231319819121834199, guid: 8ab286d5ef25b2a47af0b348e09cb57b, type: 3}
+  fireDelay: 1
+  bulletNum: 2
 --- !u!61 &6830383731334680438
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -136,7 +138,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -152,30 +154,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &1390647299792424452
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4779772367504880841}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4

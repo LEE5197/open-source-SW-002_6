@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1859057226369258544}
   - component: {fileID: 2949964069195897368}
   - component: {fileID: 50452306460804968}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EnemyBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBullet
   playerTransform: {fileID: 0}
-  moveSpeed: 3
+  moveSpeed: 5
   damage: 1
 --- !u!58 &2949964069195897368
 CircleCollider2D:
