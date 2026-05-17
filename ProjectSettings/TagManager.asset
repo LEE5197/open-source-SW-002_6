@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
+  - Item
+  - Ult
   layers:
   - Default
   - TransparentFX
@@ -17,11 +19,11 @@ TagManager:
   - Player Bullet
   - Enemy Bullet
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Power item
+  - Score Item
+  - HP item
+  - Ult Item
+  - Sub Weapon item
   - 
   - 
   - 
