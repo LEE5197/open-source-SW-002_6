@@ -1,16 +1,21 @@
-using System;
 using UnityEngine;
 
 public class UltCountPresenter : MonoBehaviour
 {
-    [SerializeField]private UltCountView ultCountView;
-    [SerializeField]private UltCountSO ultCountSO;
+    [SerializeField] private UltCountView ultCountView;
+    [SerializeField] private UltCountSO ultCountSO;
 
     private void Awake()
     {
-        if (!ultCountView||!ultCountSO)
+        if (!ultCountView)
         {
-            Debug.LogError("[UltCountPresenter] Var not found");
+            Debug.LogError("[UltCountPresenter] ultCountView is not assigned");
+            enabled = false;
+            return;
+        }
+        if (!ultCountSO)
+        {
+            Debug.LogError("[UltCountPresenter] ultCountSO is not assigned");
             enabled = false;
             return;
         }
@@ -19,15 +24,16 @@ public class UltCountPresenter : MonoBehaviour
 
     private void OnEnable()
     {
-        ultCountSO.OnValueChanged += UIUpdate;
+        ultCountSO.OnValueChanged += OnUltCountChanged;
+        OnUltCountChanged(ultCountSO.Value);
     }
 
     private void OnDisable()
     {
-        ultCountSO.OnValueChanged -= UIUpdate;
+        ultCountSO.OnValueChanged -= OnUltCountChanged;
     }
 
-    private void UIUpdate(int value)
+    private void OnUltCountChanged(int value)
     {
         ultCountView.ChangeCount(value);
     }

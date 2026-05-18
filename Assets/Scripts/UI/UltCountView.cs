@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,12 +8,14 @@ public class UltCountView : MonoBehaviour
     private List<GameObject> ultCountItems = new List<GameObject>();
     private int maxValue;
 
-    /*
-     * max 수치만큼 아이콘 미리 생성 후 비활성.
-     * presenter에서 실행해줌
-     */
     public void Initialize(int max)
     {
+        if (ultCountItems.Count > 0) return;
+        if (!ultIconParent)
+        {
+            Debug.LogError("[UltCountView] ultIconParent is not assigned");
+            return;
+        }
         maxValue = max;
         for (int i = 0; i < maxValue; i++)
         {
@@ -24,18 +25,11 @@ public class UltCountView : MonoBehaviour
         }
     }
 
-    /*
-     * value 수치만큼 Icon 활성화
-     */
     public void ChangeCount(int value)
     {
-        if(value<0)value=0;
-        else if(value>maxValue)value=maxValue;
+        if (ultCountItems.Count == 0) return;
+        int clamped = Mathf.Clamp(value, 0, maxValue);
         for (int i = 0; i < maxValue; i++)
-        {
-            ultCountItems[i].SetActive(i<value);
-        }
+            ultCountItems[i].SetActive(i < clamped);
     }
-
-    
 }
