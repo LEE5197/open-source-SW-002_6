@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UltCountSO
   initialValue: 0
   minValue: 0
-  maxValue: 0
+  maxValue: 3
   runtimeValue: 0

@@ -1,16 +1,34 @@
+using System;
 using UnityEngine;
 
 public class UltCountPresenter : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField]private UltCountView ultCountView;
+    [SerializeField]private UltCountSO ultCountSO;
+
+    private void Awake()
     {
-        
+        if (!ultCountView||!ultCountSO)
+        {
+            Debug.LogError("[UltCountPresenter] Var not found");
+            enabled = false;
+            return;
+        }
+        ultCountView.Initialize(ultCountSO.Max);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        ultCountSO.OnValueChanged += UIUpdate;
+    }
+
+    private void OnDisable()
+    {
+        ultCountSO.OnValueChanged -= UIUpdate;
+    }
+
+    private void UIUpdate(int value)
+    {
+        ultCountView.ChangeCount(value);
     }
 }
