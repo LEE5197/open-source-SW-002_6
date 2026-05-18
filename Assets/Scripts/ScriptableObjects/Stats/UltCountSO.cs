@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class UltCountSO : ClampedIntVariableSO
 {
-    bool UseUlt()
+    public bool UseUlt()
     {
         int before = Value;
         Value--;
         return before==Value;
     }
 
-    void GainUlt()
+    public void GetUlt()
     {
         Value++;
     }

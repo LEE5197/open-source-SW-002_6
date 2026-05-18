@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
 
     // 궁극기 오브젝트 및 갯수
     public GameObject ultPrefabs;
-    public int ult = 0;
+    public UltCountSO ultCount;
     private GameObject ultObject;
 
     // 현재 활성화된 보조무기 오브젝트를 관리할 변수
@@ -133,7 +133,7 @@ public class Player : MonoBehaviour
                     break;
 
                 case 14:    // 궁극기 추가 아이템
-                    ult++;
+                    ultCount.GetUlt();
                     break;
 
                 case 15:    // 보조무기 추가 아이템
@@ -180,8 +180,8 @@ public class Player : MonoBehaviour
 	{
        // if (ult <= 0) return;
         if (ultObject.activeSelf) return;
-        ult--;
-        StartCoroutine(ActiveUlt());
+        if(ultCount.UseUlt())
+            StartCoroutine(ActiveUlt());
 	}
     IEnumerator ActiveUlt()
 	{
