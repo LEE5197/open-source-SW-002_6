@@ -11,9 +11,13 @@ public class Enemy : MonoBehaviour
     public float moveSpeed = 3.0f;
     public float fireDelay = 1f; //공격 속도
     public int bulletNum = 1; //연속으로 발사하는 총알 숫자 
+    public int score = 10;  //처치 시 얻는 점수
 
     private List<GameObject> EnemyBulletList;
     private int curIdx = 0;
+
+    // 스크립터블 오브젝트를 통한 UI 연동
+    [SerializeField] private ScoreSO scoreSO;
 
     private void Awake()
     {
@@ -69,6 +73,7 @@ public class Enemy : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
+        scoreSO.AddScore(score);
         Destroy(this.gameObject);
     }
 

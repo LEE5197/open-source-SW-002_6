@@ -24,6 +24,19 @@ public class Player : MonoBehaviour
     // 총알 발사 딜레이 지정할 변수
     public float fireDelay = 0.2f;
 
+    // 스크립터블 오브젝트를 통한 UI 연동
+    public HealthSO healthSO;
+    public ScoreSO scoreSO;
+
+    // 궁극기 오브젝트 및 갯수
+    public GameObject ultPrefabs;
+    public int ult = 0;
+    private GameObject ultObject;
+
+    // 현재 활성화된 보조무기 오브젝트를 관리할 변수
+    public List<GameObject> subWeaponList;
+    private int subIdx = 0;
+
     // 플레이어 오브젝트 생성 세팅
     private void Awake()
     {
@@ -37,6 +50,8 @@ public class Player : MonoBehaviour
             bullet.SetActive(false);
             defaultBulletList.Add(bullet);
         }
+        ultObject = Instantiate(ultPrefabs);
+        ultObject.SetActive(false);
     }
     // 프레임 단위로 플레이어 입력 따라서 작동할 로직
     private void Update()
@@ -88,8 +103,69 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(fireDelay);
         canFire = true;
     }
-    // Input System 이용해서 플레이어 키 입력을 받기 위한 함수
-    void OnMove(InputValue value)
+	// 총알 충돌 확인
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.gameObject.layer == 9)    // Enemy Bullet 레이어 번호
+		{
+            float bullet = collision.gameObject.GetComponent<EnemyBullet>().damage;
+            healthSO.Damage((int)bullet);
+
+            return;
+            // 충돌 확인용
+            // Debug.Log($"damage {bullet}");
+		}
+
+		if (collision.gameObject.CompareTag("Item"))
+		{
+			switch (collision.gameObject.layer)
+			{
+                case 11:    // 총알 데미지 증폭 아이템
+                    IncreaseBulletDamage(10);
+                    break;
+
+                case 12:    // 점수 추가 아이템
+                    scoreSO.AddScore(100);
+                    break;
+
+                case 13:    // 체력 회복 아이템
+                    healthSO.Heal(10);
+                    break;
+
+                case 14:    // 궁극기 추가 아이템
+                    ult++;
+                    break;
+
+                case 15:    // 보조무기 추가 아이템
+                    Debug.Log("sub weapon item");
+                    if (subIdx < 4)
+                    {
+                        Debug.Log(subWeaponList.Count);
+                        subWeaponList[subIdx].SetActive(true);
+                        subIdx++;
+                    }
+                    break;
+            }
+            return;
+		}
+	}
+
+    // 총알 데미지 증가
+    void IncreaseBulletDamage(int weight)
+	{
+        float updateDamage = 0f;
+        foreach(var it in defaultBulletList)
+		{
+            PlayerBullet tmp = it.GetComponent<PlayerBullet>();
+            tmp.damage += weight;
+            Debug.Log($"current bullet damage : { tmp.damage}");
+            if (updateDamage != 0f) updateDamage = tmp.damage;
+		}
+        defaultBulletPrefab.GetComponent<PlayerBullet>().damage = updateDamage;
+	}
+
+	// Input System 이용해서 플레이어 키 입력을 받기 위한 함수
+	void OnMove(InputValue value)
     {
         moveVec = value.Get<Vector2>();
     }
@@ -98,4 +174,20 @@ public class Player : MonoBehaviour
     {
         isFire = value.isPressed;
     }
+
+    // 궁극기 횟수가 1 이상이고, 일정 시간이 지났다면 궁극기 사용
+    void OnUlt(InputValue value)
+	{
+       // if (ult <= 0) return;
+        if (ultObject.activeSelf) return;
+        ult--;
+        StartCoroutine(ActiveUlt());
+	}
+    IEnumerator ActiveUlt()
+	{
+        ultObject.SetActive(true);
+        ultObject.transform.position = new Vector2(0, -7f);
+        yield return new WaitForSeconds(3f);
+        ultObject.SetActive(false);
+	}
 }

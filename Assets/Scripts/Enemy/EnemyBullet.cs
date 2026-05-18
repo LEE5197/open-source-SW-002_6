@@ -44,5 +44,8 @@ public class EnemyBullet : MonoBehaviour
 
         if (collision.gameObject.layer == 0) //Border와 만나면 제거
             this.gameObject.SetActive(false);
+
+        if (collision.gameObject.CompareTag("Ult")) // Ult와 충돌 시 제거
+            this.gameObject.SetActive(false);
     }
 }

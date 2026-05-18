@@ -110,6 +110,8 @@ MonoBehaviour:
   moveSpeed: 1
   fireDelay: 3
   bulletNum: 5
+  score: 10
+  scoreSO: {fileID: 11400000, guid: 8d21454ef42f4d740b0999213da3c4ce, type: 2}
 --- !u!61 &6830383731334680438
 BoxCollider2D:
   m_ObjectHideFlags: 0
