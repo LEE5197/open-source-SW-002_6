@@ -1750,6 +1750,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1559874673
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1559874675}
+  - component: {fileID: 1559874674}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1559874674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559874673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0657f15e756a5c1458b0b7284b4e5de3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundManager
+  maxChannels: 10
+  BasicBGMClip: {fileID: 8300000, guid: ec8b4b77adf8e2d4f8e80563f095d303, type: 3}
+  UISoundClip: {fileID: 8300000, guid: a372ee96a1148d64ab6779c149c1066a, type: 3}
+  PlayerShootClip: {fileID: 8300000, guid: 40713345297c92742b316c05e60279d5, type: 3}
+  enemyShootClip: {fileID: 8300000, guid: 1accdb4d51106bd4fa0fd5692f240052, type: 3}
+  PlayerUltClip: {fileID: 8300000, guid: 083541c9a3f514549bff00685d5068e9, type: 3}
+  ItemClip: {fileID: 8300000, guid: 7f4f81b389608c34c86e720efc613957, type: 3}
+  BossEntryClip: {fileID: 8300000, guid: 4b3c16b3e1d5e174b960110b36dc7c64, type: 3}
+  BossBGMClip: {fileID: 8300000, guid: 4ad2b04da114fb842b7f337b7b7fa5ff, type: 3}
+  GameOverClip: {fileID: 8300000, guid: 8ede52fb970bc404d9b4feafb890cb6c, type: 3}
+  GameClearClip: {fileID: 8300000, guid: b743d2cfdf6b055488c5fbad4072dd78, type: 3}
+--- !u!4 &1559874675
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559874673}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1660894929
 GameObject:
   m_ObjectHideFlags: 0
@@ -2434,3 +2489,4 @@ SceneRoots:
   - {fileID: 903523660}
   - {fileID: 210960560}
   - {fileID: 1278587928}
+  - {fileID: 1559874675}
