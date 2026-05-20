@@ -1,78 +1,79 @@
-using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameOverController : MonoBehaviour
 {
     [Header("Data")]
     [SerializeField] private ScoreSO scoreSO;
 
-    [Header("UI Elements")]
-    [SerializeField] private GameObject gameOverPanel;
-    [SerializeField] private TextMeshProUGUI finalScoreText;
-    [SerializeField] private Button restartButton;
-    [SerializeField] private Button mainMenuButton;
-    [SerializeField] private Button quitButton;
+    [Header("View")]
+    [SerializeField] private GameOverView view;
 
     [Header("Events")]
     [SerializeField] private GameEvent gameOverEvent;
+
+    [Header("Scenes")]
+    [SerializeField] private string mainMenuSceneName;
+
     private void Awake()
     {
-        // 시작 시 패널이 꺼져있도록 보장
-        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        if (!view)
+        {
+            Debug.LogError("[GameOverController] view is not assigned");
+            enabled = false;
+        }
     }
 
     private void OnEnable()
     {
-        if (gameOverEvent != null)
-        {
-            gameOverEvent.RegisterListener(OnGameOver);
-        }
+        if (!view) return;
+
+        if (gameOverEvent) gameOverEvent.RegisterListener(HandleGameOver);
+
+        view.OnRestartClicked.AddListener(HandleRestart);
+        view.OnMainMenuClicked.AddListener(HandleMainMenu);
+        view.OnQuitClicked.AddListener(HandleQuit);
     }
 
     private void OnDisable()
     {
-        if (gameOverEvent != null)
-        {
-            gameOverEvent.UnregisterListener(OnGameOver);
-        }
+        if (!view) return;
+
+        if (gameOverEvent) gameOverEvent.UnregisterListener(HandleGameOver);
+
+        view.OnRestartClicked.RemoveListener(HandleRestart);
+        view.OnMainMenuClicked.RemoveListener(HandleMainMenu);
+        view.OnQuitClicked.RemoveListener(HandleQuit);
     }
 
-    public void OnGameOver()
+    private void HandleGameOver()
     {
-        if (gameOverPanel != null) gameOverPanel.SetActive(true);
-        
-        Time.timeScale = 0f; // 게임 시간 정지
-        ShowGameOverUI();
+        int finalScore = scoreSO ? scoreSO.Value : 0;
+        view.Show(finalScore);
+        GameManager.Instance?.NotifyGameOver();
     }
 
-    public void ShowGameOverUI()
+    private void HandleRestart()
     {
-        if (scoreSO != null && finalScoreText != null)
-        {
-            finalScoreText.text = $"Final Score: {scoreSO.Value}";
-        }
-        
-        // 버튼 클릭 이벤트는 나중에 구현할 수 있도록 슬롯만 확보
-        // restartButton.onClick.AddListener(RestartGame);
-        // mainMenuButton.onClick.AddListener(GoToMainMenu);
-        // quitButton.onClick.AddListener(QuitGame);
+        GameManager.Instance?.Resume();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    // 나중에 구현할 메서드들 (작동 안함)
-    public void RestartGame() 
-    { 
-        Time.timeScale = 1f; // 재시작 전 시간 복구 필수
-        Debug.Log("Restart Game"); 
+    private void HandleMainMenu()
+    {
+        GameManager.Instance?.Resume();
+        if (string.IsNullOrEmpty(mainMenuSceneName))
+            SceneManager.LoadScene(0);
+        else
+            SceneManager.LoadScene(mainMenuSceneName);
     }
-    
-    public void GoToMainMenu() 
-    { 
-        Time.timeScale = 1f; 
-        Debug.Log("Go to Main Menu"); 
+
+    private void HandleQuit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
-    
-    public void QuitGame() { Debug.Log("Quit Game"); }
 }
