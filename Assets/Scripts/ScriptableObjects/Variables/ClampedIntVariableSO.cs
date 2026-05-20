@@ -15,6 +15,10 @@ public class ClampedIntVariableSO : ScriptableObject
     [SerializeField, InspectorName("Value")]
     protected int runtimeValue;
 
+    [Header("Events")]
+    [Tooltip("이 이벤트가 Raise되면 ResetValue()가 호출됨(게임 재시작 등에 사용).")]
+    [SerializeField] private GameEvent resetEvent;
+
     //인스펙터 변경 감지를 위한 캐시(직렬화하지 않음)
     [NonSerialized] private int lastNotifiedValue;
     [NonSerialized] private bool lastNotifiedInitialized;
@@ -51,6 +55,12 @@ public class ClampedIntVariableSO : ScriptableObject
     protected virtual void OnEnable()
     {
         ResetValue();
+        if (resetEvent != null) resetEvent.RegisterListener(ResetValue);
+    }
+
+    protected virtual void OnDisable()
+    {
+        if (resetEvent != null) resetEvent.UnregisterListener(ResetValue);
     }
 
     //초기값으로 되돌림. 씬 재시작 등에서 수동 호출도 가능.

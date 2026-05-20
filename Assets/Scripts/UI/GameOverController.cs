@@ -11,6 +11,8 @@ public class GameOverController : MonoBehaviour
 
     [Header("Events")]
     [SerializeField] private GameEvent gameOverEvent;
+    [Tooltip("Raise되면 SO 데이터 및 GameManager 상태가 초기화됨.")]
+    [SerializeField] private GameEvent gameResetEvent;
 
     [Header("Scenes")]
     [SerializeField] private string mainMenuSceneName;
@@ -55,13 +57,13 @@ public class GameOverController : MonoBehaviour
 
     private void HandleRestart()
     {
-        GameManager.Instance?.Resume();
+        if (gameResetEvent != null) gameResetEvent.Raise();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void HandleMainMenu()
     {
-        GameManager.Instance?.Resume();
+        if (gameResetEvent != null) gameResetEvent.Raise();
         if (string.IsNullOrEmpty(mainMenuSceneName))
             SceneManager.LoadScene(0);
         else
