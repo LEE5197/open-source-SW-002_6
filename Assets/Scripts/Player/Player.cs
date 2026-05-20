@@ -108,8 +108,16 @@ public class Player : MonoBehaviour
 	{
 		if (collision.gameObject.layer == 9)    // Enemy Bullet 레이어 번호
 		{
-            float bullet = collision.gameObject.GetComponent<EnemyBullet>().damage;
-            healthSO.Damage((int)bullet);
+            float bullet = 0f;
+            if (collision.gameObject.GetComponent<EnemyBullet>() != null)
+            {
+                bullet = collision.gameObject.GetComponent<EnemyBullet>().damage;
+            }
+            else
+            {
+                bullet = collision.gameObject.GetComponent<EnemyBulletTypeB>().damage;
+            }
+                healthSO.Damage((int)bullet);
 
             return;
             // 충돌 확인용

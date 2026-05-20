@@ -1505,7 +1505,7 @@ MonoBehaviour:
   healthSO: {fileID: 11400000, guid: e5c5dae3bfea3834f8f772b0a5c67ede, type: 2}
   scoreSO: {fileID: 11400000, guid: 8d21454ef42f4d740b0999213da3c4ce, type: 2}
   ultPrefabs: {fileID: 5409212601424524416, guid: 450530eb856377943b3585516e436b2d, type: 3}
-  ult: 0
+  ultCount: {fileID: 11400000, guid: c795fe65f416f974c94418f0728fb249, type: 2}
   subWeaponList:
   - {fileID: 1849659737}
   - {fileID: 903523656}
