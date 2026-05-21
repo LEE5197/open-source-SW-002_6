@@ -4,9 +4,6 @@ using System.Collections.Generic;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
-    //깃 ⑦
-    public bool IsGameRunning = true;
     public bool IsPaused { get; private set; }
 
     [Header("Events")]
@@ -39,6 +36,15 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         if (resetEvent != null) resetEvent.RegisterListener(HandleReset);
+
+        if (playerTransform == null)
+            playerTransform = GameObject.FindWithTag("Player").transform;
+
+        playerBullets = new Queue<PlayerBullet>();
+        enemyBullets = new Queue<EnemyBullet>();
+
+        AddPlayerBullet();
+        AddEnemyBullet();
     }
 
     private void OnDestroy()
@@ -72,14 +78,6 @@ public class GameManager : MonoBehaviour
     {
         IsGameRunning = false;
         Pause();
-        if (playerTransform == null)
-            playerTransform = GameObject.FindWithTag("Player").transform;
-
-        playerBullets = new Queue<PlayerBullet>();
-        enemyBullets = new Queue<EnemyBullet>();
-
-        AddPlayerBullet();
-        AddEnemyBullet();
     }
 
     //플레이어 총알 리스트에 총알 추가
