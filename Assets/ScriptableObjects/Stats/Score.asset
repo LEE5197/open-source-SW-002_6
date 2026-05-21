@@ -16,3 +16,4 @@ MonoBehaviour:
   minValue: 0
   maxValue: 10000
   runtimeValue: 0
+  resetEvent: {fileID: 11400000, guid: 0558686de1e60e449a6ea8be6983bf59, type: 2}

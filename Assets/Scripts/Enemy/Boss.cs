@@ -10,9 +10,8 @@ public class Boss : MonoBehaviour
     [SerializeField] private Slider hpBar;
 
     public Transform playerTransform;
-    public GameObject bulletPrefab;
-    public GameObject bulletPrefabTypeB;
 
+    [Header("Default setting")]
     public bool isRage = false;         //최대 체력이 50% 미만인지 확인
     public float maxHealth = 10000f;    //최대 체력
     private float Health = 10000f;      //현재 체력
@@ -22,28 +21,44 @@ public class Boss : MonoBehaviour
 
     public int score = 1000;  //처치 시 얻는 점수
 
+    //보스 공격에 사용할 공통 변수
+    [Space]
+    [Header("Default attack parameter")]
     public float fireDelay = 2f; //공격 속도
     public float fireGap = 0.1f; //탄환 발사 간격
+    private bool canAttack = true;
 
     private AudioSource audioSource;
     [Header("Audio Clips")]
     public AudioClip BossBGMClip;
 
     //일정 횟수 플레이어 방향으로 연속해서 발사
+    [Space]
+    [Header("Fire Forward")]
     #region Fire Forward
     public int bulletNum = 10; //연속으로 발사하는 총알 숫자 
+    public int fireForwardCount = 5;    //패턴 수행 횟수
     #endregion
 
     //일정 탄환을 부채꼴 모양으로 한번에 발사
+    [Header("Fire Circle Sector")]
     #region Fire Shot
     public int fireShotBulletNum = 30;
     public float angle = 45f;
+    public int fireSectorCount = 5;      //패턴 수행 횟수
     #endregion
 
     //일정 횟수 플레이어 방향 기반으로 무작위 방향 발사
+    [Header("Fire Spree")]
     #region Fire Rapid
     public int fireRapidBulletNum = 90;
     #endregion
+
+    //원형으로 탄환 발사
+    [Header("Fire Circle")]
+    public int fireCircleBulletNum = 359;
+    public float fireCircleDelay = 1f;
+    public int fireAroundCount = 5;
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -58,10 +73,15 @@ public class Boss : MonoBehaviour
 
         Health = maxHealth;
         hpBar.value = Health / maxHealth;
+    }
 
-        StartCoroutine(FireForward());
-        StartCoroutine(FireShot());
-        StartCoroutine(FireRapid());
+	private void Start()
+	{
+        playerTransform = GameManager.Instance.playerTransform;
+        if (playerTransform == null)
+        {
+            playerTransform = GameObject.FindWithTag("Player").transform;
+        }
     }
 
     private void Update()
@@ -72,14 +92,58 @@ public class Boss : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+        if (canAttack) Attack();
     }
 
+    //공격 패턴을 정하고 작동
+    private void Attack()
+	{
+        canAttack = false;
+        int patternCnt = 3;
+        int num = Random.Range(0, patternCnt);
+
+		switch (num)
+		{
+            case 0:
+                StartCoroutine(FireForward());
+                break;
+            case 1:
+                StartCoroutine(FireShot());
+                break;
+            case 2:
+                StartCoroutine(FireAround());
+                break;
+            case 3:
+                break;
+		}
+	}
+    //전방에 총알을 연속해서 부채꼴 모양으로 발사
+    IEnumerator FireAround()
+    {
+        float angleOffset = 0;
+        for (int cnt = 0; cnt < fireAroundCount; cnt++) 
+        {
+            angleOffset += 15f * Mathf.Deg2Rad;
+            yield return new WaitForSeconds(fireCircleDelay);
+            for (int i = 0; i < fireCircleBulletNum; i++)
+            {
+                EnemyBullet bullet = GameManager.Instance.GetEnemyBullet();
+                if (bullet == null) continue;
+                bullet.gameObject.SetActive(true);
+                bullet.gameObject.transform.position = transform.position;
+
+                float curAngle = Mathf.PI * 2 * i / fireCircleBulletNum + angleOffset;
+                bullet.moveVec = new Vector2(Mathf.Cos(curAngle), Mathf.Sin(curAngle)).normalized;
+            }
+        }
+        canAttack = true;
+    }
     //플레이어 방향 기준 여러발 부채꼴 모양으로 발사
     IEnumerator FireShot()
     {
-        while (true)
+        for (int cnt = 0; cnt < fireSectorCount; cnt++)
         {
-            yield return new WaitForSeconds(fireDelay + 0.1f);
+            yield return new WaitForSeconds(fireDelay);
 
             if (playerTransform == null) continue;
 
@@ -103,34 +167,41 @@ public class Boss : MonoBehaviour
                 float rad = targetAngle * Mathf.Deg2Rad;
                 Vector2 fireDirection = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)).normalized;
 
-                //총알을 생성
-                GameObject bullet = Instantiate(bulletPrefabTypeB, transform.position, Quaternion.identity);
+                //총알을 폴에서 가져오기
+                EnemyBullet bullet = GameManager.Instance.GetEnemyBullet();
+                if (bullet == null) continue;
 
-                //생성된 총알에 계산해 둔 방향 벡터 설정
-                EnemyBulletTypeB bulletScript = bullet.GetComponent<EnemyBulletTypeB>();
-                if (bulletScript != null)
-                {
-                    bulletScript.moveVec = fireDirection;
-                }
+                //가져온 총알에 계산해 둔 방향 벡터 설정
+                bullet.gameObject.SetActive(true);
+                bullet.gameObject.transform.position = transform.position;
+                bullet.moveVec = fireDirection;
 
                 // 총알 오브젝트의 이미지 각도도 날아가는 방향을 바라보게 회전시켜 줍니다.
                 bullet.transform.rotation = Quaternion.Euler(0, 0, targetAngle - 90f);
             }
         }
+        canAttack = true;
     }
     // 플레이어 방향으로 여러발 일정 간격으로 발사
     IEnumerator FireForward()
     {
-        while (true)
+        for (int cnt = 0; cnt < fireForwardCount; cnt++) 
         {
             yield return new WaitForSeconds(fireDelay);
 
             for (int i = 0; i < bulletNum; i++)
             {
                 yield return new WaitForSeconds(fireGap);
-                Instantiate(bulletPrefab, transform.position, Quaternion.identity, null);
+                
+                EnemyBullet bullet = GameManager.Instance.GetEnemyBullet();
+                if (bullet == null) continue;
+
+                bullet.gameObject.SetActive(true);
+                bullet.gameObject.transform.position = transform.position;
+                bullet.moveVec = (playerTransform.transform.position - transform.position).normalized;
             }
         }
+        canAttack = true;
     }
     IEnumerator FireRapid()
     {
@@ -143,34 +214,29 @@ public class Boss : MonoBehaviour
 
             for (int i = 0; i < fireRapidBulletNum; i++)
             {
-                // 연사 느낌을 주기 위해 총알 한 발당 미세한 시간 차이를 둡니다. (원치 않으면 삭제 가능)
+                // 연사 느낌을 주기 위해 총알 한 발당 미세한 시간 차이
                 yield return new WaitForSeconds(fireGap);
                 if (playerTransform == null) break;
 
-                // 1. 보스에서 플레이어를 바라보는 기본 방향과 중심 각도를 구합니다.
+                //보스에서 플레이어를 바라보는 기본 방향과 중심 각도 계산
                 Vector2 dir = playerTransform.position - transform.position;
                 float centerAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-                // 2. [핵심] 중심 각도에서 지정한 범위(45도)의 절반만큼 좌우로 무작위 오차를 줍니다.
-                // 예: 45도 설정 시, -22.5도 ~ +22.5도 사이의 랜덤한 값이 더해집니다.
+                //설정 각도에 따라 총알 퍼짐 무작위 설정
                 float randomOffset = Random.Range(-angle / 2f, angle / 2f);
                 float finalAngle = centerAngle + randomOffset;
 
-                // 3. 최종 결정된 랜덤 각도를 2D 방향 벡터로 변환합니다.
+                //최종 결정된 랜덤 각도를 방향 벡터로 변환
                 float rad = finalAngle * Mathf.Deg2Rad;
                 Vector2 fireDirection = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)).normalized;
 
-                // 4. 총알을 생성하고 방향을 주입합니다.
-                GameObject bullet = Instantiate(bulletPrefabTypeB, transform.position, Quaternion.identity);
+                //총알을 생성하고 방향을 주입
+                EnemyBullet bullet = GameManager.Instance.GetEnemyBullet();
+                if (bullet == null) continue;
 
-                EnemyBulletTypeB bulletScript = bullet.GetComponent<EnemyBulletTypeB>();
-                if (bulletScript != null)
-                {
-                    bulletScript.moveVec = fireDirection;
-                }
-
-                // 총알이 날아가는 방향을 바라보도록 회전
-                bullet.transform.rotation = Quaternion.Euler(0, 0, finalAngle - 90f);
+                bullet.gameObject.SetActive(true);
+                bullet.gameObject.transform.position = transform.position;
+                bullet.moveVec = fireDirection;
             }
         }
     }
@@ -224,13 +290,21 @@ public class Boss : MonoBehaviour
     private void Death()
     {
         scoreSO.AddScore(score);
+        StopAllCoroutines();
         gameObject.SetActive(false);
     }
+
+    //체력이 절반 미만일 시 특수 패턴 진입
     private void Rage()
     {
-        fireDelay = fireDelay / 2;
-        fireGap = fireGap / 2;
+        StopAllCoroutines();
+        canAttack = true;
+        isRage = true;
+        fireDelay /= 2;
+        fireGap /= 2;
+        StartCoroutine(FireRapid());
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer != 8) return;

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    public Transform playerTransform; //player 오브젝트
+    public Vector2 moveVec = Vector2.down;
 
     private Rigidbody2D rigid;
     public float moveSpeed = 2f;
@@ -12,14 +12,14 @@ public class EnemyBullet : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        if (playerTransform == null) //플레이어 위치 추가
-            playerTransform = GameObject.FindWithTag("Player").transform;
     }
 
-    public void OnEnable() //활성화 시에 방향 결정
+    public void OnEnable() //활성화 시에 방향 결정 => 오브젝트 폴 및 보스 오브젝트에서도 동일한 총알 사용을 위해 수정, 적 오브젝트에서 총알 발사시 총알 위치 지정하도록 변경
     {
+        /*
         if (playerTransform != null)
             bulletVec = (playerTransform.position - transform.position).normalized;
+        */
     }
     private void OnDisable()
     {
@@ -29,7 +29,7 @@ public class EnemyBullet : MonoBehaviour
     //방향으로 이동
     private void FixedUpdate()
     {
-        rigid.linearVelocity = bulletVec * moveSpeed;
+        rigid.linearVelocity = moveVec * moveSpeed;
     }
 
     // 총알의 충돌을 감지하기위한 함수
@@ -39,13 +39,13 @@ public class EnemyBullet : MonoBehaviour
 
         if (collision.gameObject.layer == 6) //Player와 만나면 제거
         {
-            this.gameObject.SetActive(false);
+            GameManager.Instance.ReturnEnemyBullet(this);
         }
 
         if (collision.gameObject.layer == 0) //Border와 만나면 제거
-            this.gameObject.SetActive(false);
+            GameManager.Instance.ReturnEnemyBullet(this);
 
         if (collision.gameObject.CompareTag("Ult")) // Ult와 충돌 시 제거
-            this.gameObject.SetActive(false);
+            GameManager.Instance.ReturnEnemyBullet(this);
     }
 }
