@@ -27,10 +27,13 @@ public class SubWeapon : MonoBehaviour
 	private void Awake()
 	{
         rigid = GetComponent<Rigidbody2D>();
+	}
 
+	private void Start()
+	{
 		if (targetPos == null)
 			targetPos = GameManager.Instance.playerTransform;
-		if (targetPos = null)
+		if (targetPos == null)
 			targetPos = GameObject.FindWithTag("Player").transform;
 	}
 
