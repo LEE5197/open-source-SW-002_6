@@ -25,6 +25,10 @@ public class Boss : MonoBehaviour
     public float fireDelay = 2f; //공격 속도
     public float fireGap = 0.1f; //탄환 발사 간격
 
+    private AudioSource audioSource;
+    [Header("Audio Clips")]
+    public AudioClip BossBGMClip;
+
     //일정 횟수 플레이어 방향으로 연속해서 발사
     #region Fire Forward
     public int bulletNum = 10; //연속으로 발사하는 총알 숫자 
@@ -44,6 +48,8 @@ public class Boss : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         render = GetComponent<SpriteRenderer>();
+
+        SoundManager.Instance.PlayBossBGM(BossBGMClip);
 
         if (playerTransform == null)
         {

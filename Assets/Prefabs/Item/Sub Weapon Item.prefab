@@ -182,3 +182,4 @@ MonoBehaviour:
   moveVec: {x: 0, y: 0}
   moveSpeed: 10
   deleteTimer: 5
+  ItemClip: {fileID: 8300000, guid: 7f4f81b389608c34c86e720efc613957, type: 3}

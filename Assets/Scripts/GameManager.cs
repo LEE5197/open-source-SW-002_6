@@ -4,7 +4,6 @@ public class GameManager : MonoBehaviour
 {
     public bool IsGameRunning = true;
 
-
     //ΩÃ±€≈Ê ∆–≈œ
 
     public static GameManager Instance;

@@ -37,6 +37,10 @@ public class Player : MonoBehaviour
     public List<GameObject> subWeaponList;
     private int subIdx = 0;
 
+    [Header("Audio Clips")]
+    public AudioClip PlayerShootClip;
+
+
     // 플레이어 오브젝트 생성 세팅
     private void Awake()
     {
@@ -89,7 +93,12 @@ public class Player : MonoBehaviour
             // 리스트 확장 확인용 
             // Debug.Log($"총알 리스트 확장 : {defaultBulletList.Count}");
         }
-        
+
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySfx(PlayerShootClip);
+        }
+
         // 현재 발사할 총알 위치 플레이어 위치로 조정 후 확성화
         defaultBulletList[curIdx].transform.position = transform.position;
         defaultBulletList[curIdx++].SetActive(true);

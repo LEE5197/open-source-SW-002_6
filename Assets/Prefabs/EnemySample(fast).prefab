@@ -112,6 +112,8 @@ MonoBehaviour:
   bulletNum: 1
   score: 10
   scoreSO: {fileID: 11400000, guid: 8d21454ef42f4d740b0999213da3c4ce, type: 2}
+  enemyShootClip: {fileID: 8300000, guid: 1accdb4d51106bd4fa0fd5692f240052, type: 3}
+  enemyExplosionClip: {fileID: 8300000, guid: 80b23440084bb034f9591eae38915e59, type: 3}
 --- !u!61 &6830383731334680438
 BoxCollider2D:
   m_ObjectHideFlags: 0
