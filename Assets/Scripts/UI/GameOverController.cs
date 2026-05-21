@@ -5,6 +5,7 @@ public class GameOverController : MonoBehaviour
 {
     [Header("Data")]
     [SerializeField] private ScoreSO scoreSO;
+    [SerializeField] private HighScoreSO highScoreSO;
 
     [Header("View")]
     [SerializeField] private GameOverView view;
@@ -51,7 +52,9 @@ public class GameOverController : MonoBehaviour
     private void HandleGameOver()
     {
         int finalScore = scoreSO ? scoreSO.Value : 0;
-        view.Show(finalScore);
+        bool isNewRecord = highScoreSO != null && highScoreSO.TrySave(finalScore);
+        int highScore = highScoreSO != null ? highScoreSO.Value : finalScore;
+        view.Show(finalScore, highScore, isNewRecord);
         GameManager.Instance?.NotifyGameOver();
     }
 

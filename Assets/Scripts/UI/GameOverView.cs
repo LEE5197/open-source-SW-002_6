@@ -8,6 +8,7 @@ public class GameOverView : MonoBehaviour
     [Header("UI Elements")]
     [SerializeField] private GameObject panel;
     [SerializeField] private TextMeshProUGUI finalScoreText;
+    [SerializeField] private TextMeshProUGUI highScoreText;
     [SerializeField] private Button restartButton;
     [SerializeField] private Button mainMenuButton;
     [SerializeField] private Button quitButton;
@@ -32,10 +33,11 @@ public class GameOverView : MonoBehaviour
         if (quitButton)     quitButton.onClick.RemoveListener(OnQuitClicked.Invoke);
     }
 
-    public void Show(int finalScore)
+    public void Show(int finalScore, int highScore, bool isNewRecord)
     {
         if (panel) panel.SetActive(true);
         if (finalScoreText) finalScoreText.text = $"Final Score: {finalScore}";
+        if (highScoreText) highScoreText.text = $"Best: {highScore}";
     }
 
     public void Hide()
