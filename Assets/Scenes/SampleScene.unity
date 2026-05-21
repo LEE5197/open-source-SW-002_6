@@ -233,7 +233,6 @@ MonoBehaviour:
   maxSpeed: 8
   minDist: 1.5
   slowDist: 3
-  bulletPrefab: {fileID: 5822080819344044643, guid: 26d1778c56e78ad4a99de9ac532a61fa, type: 3}
   attackDelay: 1
   enemyLayer:
     serializedVersion: 2
@@ -709,6 +708,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   IsGameRunning: 1
+  playerTransform: {fileID: 910352861}
+  PlayerBulletPrefab: {fileID: 5822080819344044643, guid: 26d1778c56e78ad4a99de9ac532a61fa, type: 3}
+  EnemyBulletPrefab: {fileID: 5231319819121834199, guid: 8ab286d5ef25b2a47af0b348e09cb57b, type: 3}
 --- !u!4 &444222812
 Transform:
   m_ObjectHideFlags: 0
@@ -1228,7 +1230,6 @@ MonoBehaviour:
   maxSpeed: 8
   minDist: 1.5
   slowDist: 3
-  bulletPrefab: {fileID: 5822080819344044643, guid: 26d1778c56e78ad4a99de9ac532a61fa, type: 3}
   attackDelay: 1
   enemyLayer:
     serializedVersion: 2
@@ -1500,7 +1501,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   moveSpeed: 8
-  defaultBulletPrefab: {fileID: 5822080819344044643, guid: 26d1778c56e78ad4a99de9ac532a61fa, type: 3}
   fireDelay: 0.2
   healthSO: {fileID: 11400000, guid: e5c5dae3bfea3834f8f772b0a5c67ede, type: 2}
   scoreSO: {fileID: 11400000, guid: 8d21454ef42f4d740b0999213da3c4ce, type: 2}
@@ -1643,7 +1643,6 @@ MonoBehaviour:
   maxSpeed: 8
   minDist: 1.5
   slowDist: 3
-  bulletPrefab: {fileID: 5822080819344044643, guid: 26d1778c56e78ad4a99de9ac532a61fa, type: 3}
   attackDelay: 1
   enemyLayer:
     serializedVersion: 2
@@ -1864,7 +1863,6 @@ MonoBehaviour:
   maxSpeed: 8
   minDist: 1.5
   slowDist: 3
-  bulletPrefab: {fileID: 5822080819344044643, guid: 26d1778c56e78ad4a99de9ac532a61fa, type: 3}
   attackDelay: 1
   enemyLayer:
     serializedVersion: 2

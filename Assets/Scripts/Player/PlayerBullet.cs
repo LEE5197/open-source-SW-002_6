@@ -28,7 +28,7 @@ public class PlayerBullet : MonoBehaviour
         if (collision.gameObject.layer == 6 || collision.gameObject.layer == 9
             || collision.gameObject.CompareTag("Item") || collision.gameObject.layer == 8) return;
 
-        // 오브젝트 폴링 기법 사용을 위한 충돌 시 오브젝트 비활성화 설정
-        this.gameObject.SetActive(false);
+        // 오브젝트 재사용을 위해 오브젝트 폴에 반환
+        GameManager.Instance.ReturnPlayerBullet(this);
     }
 }

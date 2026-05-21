@@ -10,8 +10,6 @@ public class Boss : MonoBehaviour
     [SerializeField] private Slider hpBar;
 
     public Transform playerTransform;
-    public GameObject bulletPrefab;
-    public GameObject bulletPrefabTypeB;
 
     public bool isRage = false;         //최대 체력이 50% 미만인지 확인
     public float maxHealth = 10000f;    //최대 체력
@@ -45,17 +43,18 @@ public class Boss : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         render = GetComponent<SpriteRenderer>();
 
+
+        Health = maxHealth;
+        hpBar.value = Health / maxHealth;
+    }
+
+	private void Start()
+	{
+        playerTransform = GameManager.Instance.playerTransform;
         if (playerTransform == null)
         {
             playerTransform = GameObject.FindWithTag("Player").transform;
         }
-
-        Health = maxHealth;
-        hpBar.value = Health / maxHealth;
-
-        StartCoroutine(FireForward());
-        StartCoroutine(FireShot());
-        StartCoroutine(FireRapid());
     }
 
     private void Update()
@@ -73,7 +72,7 @@ public class Boss : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(fireDelay + 0.1f);
+            yield return new WaitForSeconds(fireDelay);
 
             if (playerTransform == null) continue;
 
@@ -97,15 +96,14 @@ public class Boss : MonoBehaviour
                 float rad = targetAngle * Mathf.Deg2Rad;
                 Vector2 fireDirection = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)).normalized;
 
-                //총알을 생성
-                GameObject bullet = Instantiate(bulletPrefabTypeB, transform.position, Quaternion.identity);
+                //총알을 폴에서 가져오기
+                EnemyBullet bullet = GameManager.Instance.GetEnemyBullet();
+                if (bullet == null) continue;
 
-                //생성된 총알에 계산해 둔 방향 벡터 설정
-                EnemyBulletTypeB bulletScript = bullet.GetComponent<EnemyBulletTypeB>();
-                if (bulletScript != null)
-                {
-                    bulletScript.moveVec = fireDirection;
-                }
+                //가져온 총알에 계산해 둔 방향 벡터 설정
+                bullet.gameObject.SetActive(true);
+                bullet.gameObject.transform.position = transform.position;
+                bullet.moveVec = fireDirection;
 
                 // 총알 오브젝트의 이미지 각도도 날아가는 방향을 바라보게 회전시켜 줍니다.
                 bullet.transform.rotation = Quaternion.Euler(0, 0, targetAngle - 90f);
@@ -122,7 +120,13 @@ public class Boss : MonoBehaviour
             for (int i = 0; i < bulletNum; i++)
             {
                 yield return new WaitForSeconds(fireGap);
-                Instantiate(bulletPrefab, transform.position, Quaternion.identity, null);
+                
+                EnemyBullet bullet = GameManager.Instance.GetEnemyBullet();
+                if (bullet == null) continue;
+
+                bullet.gameObject.SetActive(true);
+                bullet.gameObject.transform.position = transform.position;
+                bullet.moveVec = (playerTransform.transform.position - transform.position).normalized;
             }
         }
     }
@@ -155,16 +159,12 @@ public class Boss : MonoBehaviour
                 Vector2 fireDirection = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)).normalized;
 
                 // 4. 총알을 생성하고 방향을 주입합니다.
-                GameObject bullet = Instantiate(bulletPrefabTypeB, transform.position, Quaternion.identity);
+                EnemyBullet bullet = GameManager.Instance.GetEnemyBullet();
+                if (bullet == null) continue;
 
-                EnemyBulletTypeB bulletScript = bullet.GetComponent<EnemyBulletTypeB>();
-                if (bulletScript != null)
-                {
-                    bulletScript.moveVec = fireDirection;
-                }
-
-                // 총알이 날아가는 방향을 바라보도록 회전
-                bullet.transform.rotation = Quaternion.Euler(0, 0, finalAngle - 90f);
+                bullet.gameObject.SetActive(true);
+                bullet.gameObject.transform.position = transform.position;
+                bullet.moveVec = fireDirection;
             }
         }
     }
