@@ -16,30 +16,22 @@ public class SubWeapon : MonoBehaviour
     public float minDist = 1f;
     public float slowDist = 3f;
 
-	// 공격에 필요한 총알 프리펩, 리스트 등 변수
-	public GameObject bulletPrefab;
+	// 공격 속도, 적 탐지 범위
 	public float attackDelay = 1f;
 	public LayerMask enemyLayer;
 	public float attackRange = 7f;
 
 	private bool canAttack = true;
-	private List<GameObject> bulletObjList;
-	private List<PlayerBullet> bulletVecList;
-	int idx = 0;
 
+	//이동에 필요한 Rigidbody2D 컴포넌트 할당, 플레이어 위치 참조
 	private void Awake()
 	{
         rigid = GetComponent<Rigidbody2D>();
-		bulletObjList = new List<GameObject>();
-		bulletVecList = new List<PlayerBullet>();
 
-		for(int i = 0; i < 10; i++)
-		{
-			GameObject obj = Instantiate(bulletPrefab);
-			bulletObjList.Add(obj);
-			bulletVecList.Add(obj.GetComponent<PlayerBullet>());
-			obj.SetActive(false);
-		}
+		if (targetPos == null)
+			targetPos = GameManager.Instance.playerTransform;
+		if (targetPos = null)
+			targetPos = GameObject.FindWithTag("Player").transform;
 	}
 
 	private void Update()
@@ -75,25 +67,29 @@ public class SubWeapon : MonoBehaviour
 		rigid.linearVelocity = moveVec * currentSpeed;
 	}
 
+	//게임 매니저 오브젝트로부터 오브젝트 폴에 있는 총알 가져와서 발사
 	private void Attack()
 	{
 		Collider2D enemy = Physics2D.OverlapCircle(transform.position, attackRange, enemyLayer);
 		if (enemy == null) return;
 
 		canAttack = false;
-		StartCoroutine(AttackCoroutine());
-		bulletVecList[idx].moveVec = (enemy.gameObject.transform.position - transform.position).normalized;
-		bulletObjList[idx].transform.position = transform.position;
-		bulletObjList[idx].SetActive(true);
 
-		idx = (idx + 1) % bulletObjList.Count;
+		PlayerBullet bullet = GameManager.Instance.GetPlayerBullet();
+		bullet.gameObject.SetActive(true);
+		bullet.gameObject.transform.position = transform.position;
+		bullet.moveVec = (enemy.gameObject.transform.position - transform.position).normalized;
+
+		StartCoroutine(AttackCoroutine());
 	}
+	//공격 속도 체크에 사용할 변수 초기화 
 	IEnumerator AttackCoroutine()
 	{
 		yield return new WaitForSeconds(attackDelay);
 		canAttack = true;
 	}
 
+	//디버깅 환경에서 공격 범위 보기위한 함수
 	private void OnDrawGizmos()
 	{
 		Gizmos.DrawWireSphere(transform.position, attackRange);
