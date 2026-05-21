@@ -28,7 +28,6 @@ public class Boss : MonoBehaviour
     public float fireGap = 0.1f; //탄환 발사 간격
     private bool canAttack = true;
 
-    private AudioSource audioSource;
     [Header("Audio Clips")]
     public AudioClip BossBGMClip;
 
@@ -64,8 +63,6 @@ public class Boss : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         render = GetComponent<SpriteRenderer>();
 
-        SoundManager.Instance.PlayBossBGM(BossBGMClip);
-
         if (playerTransform == null)
         {
             playerTransform = GameObject.FindWithTag("Player").transform;
@@ -82,6 +79,8 @@ public class Boss : MonoBehaviour
         {
             playerTransform = GameObject.FindWithTag("Player").transform;
         }
+
+        SoundManager.Instance.PlayBossBGM(BossBGMClip);
     }
 
     private void Update()

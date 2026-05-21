@@ -404,7 +404,7 @@ MonoBehaviour:
   score: 100
   fireDelay: 0.5
   fireGap: 0.1
-  BossBGMClip: {fileID: 8300000, guid: 4ad2b04da114fb842b7f337b7b7fa5ff, type: 3}
+  BossBGMClip: {fileID: 8300000, guid: f3448d20b2bf2d34186024a743b5d8d8, type: 3}
   bulletNum: 29
   fireForwardCount: 5
   fireShotBulletNum: 29
