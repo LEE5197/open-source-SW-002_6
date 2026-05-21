@@ -20,11 +20,30 @@ public class GameOverController : MonoBehaviour
 
     private void Awake()
     {
+        bool valid = true;
+
         if (!view)
         {
-            Debug.LogError("[GameOverController] view is not assigned");
-            enabled = false;
+            Debug.LogError("[GameOverController] view is not assigned", this);
+            valid = false;
         }
+        if (!gameOverEvent)
+        {
+            Debug.LogError("[GameOverController] gameOverEvent is not assigned — game over UI will never activate", this);
+            valid = false;
+        }
+        if (!gameResetEvent)
+        {
+            Debug.LogError("[GameOverController] gameResetEvent is not assigned — GameManager will remain paused after restart/main menu", this);
+            valid = false;
+        }
+        if (!scoreSO)
+        {
+            Debug.LogError("[GameOverController] scoreSO is not assigned — final score will always display 0", this);
+            valid = false;
+        }
+
+        if (!valid) enabled = false;
     }
 
     private void OnEnable()
