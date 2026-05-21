@@ -15,12 +15,6 @@ public class Player : MonoBehaviour
     private bool canFire = true;
     private bool isFire = false;
 
-    // 총알 오브젝트 프리펩
-    public GameObject defaultBulletPrefab;
-    // 오브젝트 폴링을 통한 총알 발사를 구현하기 위한 리스트, 현재 발사해야 할 총알 순서를 저장할 변수
-    private List<GameObject> defaultBulletList;
-    private int curIdx = 0;
-
     // 총알 발사 딜레이 지정할 변수
     public float fireDelay = 0.2f;
 
@@ -42,14 +36,6 @@ public class Player : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
 
-        // 총알 리스트에 총알 프리펩 할당
-        defaultBulletList = new List<GameObject>();
-        for(int i = 0; i < 30; i++)
-        {
-            GameObject bullet = Instantiate(defaultBulletPrefab);
-            bullet.SetActive(false);
-            defaultBulletList.Add(bullet);
-        }
         ultObject = Instantiate(ultPrefabs);
         ultObject.SetActive(false);
     }
@@ -75,25 +61,12 @@ public class Player : MonoBehaviour
     // 플레이어 총알 발사 함수
     private void Fire()
     {
-        // 현재 발사해야할 총알이 활성화 상태가 아니라면 리스트의 총알 갯수가 모자른 것이므로
-        // 총알 리스트 확장
-        if (defaultBulletList[curIdx].activeSelf)
-        {
-            curIdx = defaultBulletList.Count;
-            for (int i = 0; i < 30; i++)
-            {
-                GameObject bullet = Instantiate(defaultBulletPrefab);
-                bullet.SetActive(false);
-                defaultBulletList.Add(bullet);
-            }
-            // 리스트 확장 확인용 
-            // Debug.Log($"총알 리스트 확장 : {defaultBulletList.Count}");
-        }
-        
-        // 현재 발사할 총알 위치 플레이어 위치로 조정 후 확성화
-        defaultBulletList[curIdx].transform.position = transform.position;
-        defaultBulletList[curIdx++].SetActive(true);
-        curIdx %= defaultBulletList.Count;
+        PlayerBullet bullet = GameManager.Instance.GetPlayerBullet();
+        if (bullet == null) return;
+        bullet.gameObject.SetActive(true);
+        bullet.gameObject.transform.position = transform.position;
+        bullet.moveVec = Vector2.up;
+
         StartCoroutine(FireCoroutine());
     }
     // 총알 발사 딜레이 확인용 코루틴
@@ -159,8 +132,10 @@ public class Player : MonoBehaviour
 	}
 
     // 총알 데미지 증가
+    
     void IncreaseBulletDamage(int weight)
 	{
+        /*
         float updateDamage = 0f;
         foreach(var it in defaultBulletList)
 		{
@@ -170,10 +145,11 @@ public class Player : MonoBehaviour
             if (updateDamage != 0f) updateDamage = tmp.damage;
 		}
         defaultBulletPrefab.GetComponent<PlayerBullet>().damage = updateDamage;
-	}
+        */
+    }
 
-	// Input System 이용해서 플레이어 키 입력을 받기 위한 함수
-	void OnMove(InputValue value)
+    // Input System 이용해서 플레이어 키 입력을 받기 위한 함수
+    void OnMove(InputValue value)
     {
         moveVec = value.Get<Vector2>();
     }
