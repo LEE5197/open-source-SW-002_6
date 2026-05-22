@@ -16,6 +16,11 @@ public class Enemy : MonoBehaviour
     // 스크립터블 오브젝트를 통한 UI 연동
     [SerializeField] private ScoreSO scoreSO;
 
+    [Header("Audio Clips")]
+    public AudioClip enemyShootClip;
+    public AudioClip enemyExplosionClip;
+
+
     private Transform playerTransform;
 
     private void Awake()
@@ -46,6 +51,10 @@ public class Enemy : MonoBehaviour
             for (int i = 0; i < bulletNum; i++) //총알 개수만큼 연속 발사
             {
                 yield return new WaitForSeconds(0.1f);
+                if (SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlaySfx(enemyShootClip);
+                }
 
                 EnemyBullet bullet = GameManager.Instance.GetEnemyBullet();
                 if (bullet == null) continue;
@@ -59,6 +68,8 @@ public class Enemy : MonoBehaviour
     IEnumerator HitEffect()
     {
         moveSpeed = 0;
+
+        SoundManager.Instance.PlaySfx(enemyExplosionClip);
 
         for (int i = 0; i < 2; i++)
         {

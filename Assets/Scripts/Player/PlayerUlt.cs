@@ -4,10 +4,11 @@ public class PlayerUlt : MonoBehaviour
 {
     private Rigidbody2D rigid;
 	public float moveSpeed = 20f;
-	private void Awake()
+
+    private void Awake()
 	{
 		rigid = GetComponent<Rigidbody2D>();
-	}
+    }
 
 	private void FixedUpdate()
 	{

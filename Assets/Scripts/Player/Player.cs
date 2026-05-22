@@ -31,6 +31,11 @@ public class Player : MonoBehaviour
     public List<GameObject> subWeaponList;
     private int subIdx = 0;
 
+    [Header("Audio Clips")]
+    public AudioClip PlayerShootClip;
+    public AudioClip PlayerUltClip;
+
+
     // 플레이어 오브젝트 생성 세팅
     private void Awake()
     {
@@ -63,6 +68,12 @@ public class Player : MonoBehaviour
     {
         PlayerBullet bullet = GameManager.Instance.GetPlayerBullet();
         if (bullet == null) return;
+
+        if (SoundManager.Instance != null) //효과음
+        {
+            SoundManager.Instance.PlaySfx(PlayerShootClip);
+        }
+
         bullet.gameObject.SetActive(true);
         bullet.gameObject.transform.position = transform.position;
         bullet.moveVec = Vector2.up;
@@ -169,6 +180,11 @@ public class Player : MonoBehaviour
 	}
     IEnumerator ActiveUlt()
 	{
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySfx(PlayerUltClip);
+        }
+
         ultObject.SetActive(true);
         ultObject.transform.position = new Vector2(0, -7f);
         yield return new WaitForSeconds(3f);

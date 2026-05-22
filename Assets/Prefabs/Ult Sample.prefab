@@ -180,3 +180,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUlt
   moveSpeed: 20
+  PlayerUltClip: {fileID: 8300000, guid: 083541c9a3f514549bff00685d5068e9, type: 3}

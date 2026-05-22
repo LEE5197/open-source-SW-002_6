@@ -28,6 +28,9 @@ public class Boss : MonoBehaviour
     public float fireGap = 0.1f; //탄환 발사 간격
     private bool canAttack = true;
 
+    [Header("Audio Clips")]
+    public AudioClip BossBGMClip;
+
     //일정 횟수 플레이어 방향으로 연속해서 발사
     [Space]
     [Header("Fire Forward")]
@@ -60,6 +63,10 @@ public class Boss : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         render = GetComponent<SpriteRenderer>();
 
+        if (playerTransform == null)
+        {
+            playerTransform = GameObject.FindWithTag("Player").transform;
+        }
 
         Health = maxHealth;
         hpBar.value = Health / maxHealth;
@@ -72,6 +79,8 @@ public class Boss : MonoBehaviour
         {
             playerTransform = GameObject.FindWithTag("Player").transform;
         }
+
+        SoundManager.Instance.PlayBossBGM(BossBGMClip);
     }
 
     private void Update()

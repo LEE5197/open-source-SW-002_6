@@ -275,6 +275,57 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 21.46, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &612950653
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 612950655}
+  - component: {fileID: 612950654}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &612950654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612950653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0657f15e756a5c1458b0b7284b4e5de3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundManager
+  maxChannels: 10
+  BasicBGMClip: {fileID: 8300000, guid: ec8b4b77adf8e2d4f8e80563f095d303, type: 3}
+  UISoundClip: {fileID: 8300000, guid: a372ee96a1148d64ab6779c149c1066a, type: 3}
+  GameOverClip: {fileID: 8300000, guid: 8ede52fb970bc404d9b4feafb890cb6c, type: 3}
+  GameClearClip: {fileID: 8300000, guid: b743d2cfdf6b055488c5fbad4072dd78, type: 3}
+  BossEntryClip: {fileID: 8300000, guid: 4b3c16b3e1d5e174b960110b36dc7c64, type: 3}
+  IsBGMOn: 0
+--- !u!4 &612950655
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612950653}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1132042272
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,6 +451,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  PlayerShootClip: {fileID: 0}
+  PlayerUltClip: {fileID: 0}
 --- !u!50 &1290846509
 Rigidbody2D:
   serializedVersion: 5
@@ -1023,3 +1076,4 @@ SceneRoots:
   - {fileID: 1542578969}
   - {fileID: 1132042273}
   - {fileID: 2049983056}
+  - {fileID: 612950655}

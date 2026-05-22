@@ -7,8 +7,11 @@ public class Item : MonoBehaviour
     public float moveSpeed = 10f;
     public float deleteTimer = 5f;
 
-	// 아이템이 무작위 방향으로 이동시키기 위해 변수 초기화
-	private void Awake()
+    [Header("Audio Clips")]
+    public AudioClip ItemClip;
+
+    // 아이템이 무작위 방향으로 이동시키기 위해 변수 초기화
+    private void Awake()
 	{
 		rigid = GetComponent<Rigidbody2D>();
 
@@ -32,7 +35,11 @@ public class Item : MonoBehaviour
 		if (collision.gameObject.layer == 6)
 		{
 			Debug.Log("hit player");
-			Destroy(gameObject);
+			if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlaySfx(ItemClip);
+            }
+            Destroy(gameObject);
 			return;
 		}
 		
