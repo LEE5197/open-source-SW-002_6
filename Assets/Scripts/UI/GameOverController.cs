@@ -18,6 +18,8 @@ public class GameOverController : MonoBehaviour
     [Header("Scenes")]
     [SerializeField] private string mainMenuSceneName;
 
+    public AudioClip GameOverClip;
+
     private void Awake()
     {
         bool valid = true;
@@ -70,6 +72,9 @@ public class GameOverController : MonoBehaviour
 
     private void HandleGameOver()
     {
+        SoundManager.Instance.BGMChannel.Stop();
+        SoundManager.Instance.PlaySfx(GameOverClip);
+
         int finalScore = scoreSO ? scoreSO.Value : 0;
         bool isNewRecord = highScoreSO != null && highScoreSO.TrySave(finalScore);
         int highScore = highScoreSO != null ? highScoreSO.Value : finalScore;

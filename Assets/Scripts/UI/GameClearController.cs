@@ -18,6 +18,8 @@ public class GameClearController : MonoBehaviour
     [Header("Scenes")]
     [SerializeField] private string mainMenuSceneName;
 
+    public AudioClip GameClearClip;
+
     private void Awake()
     {
         bool valid = true;
@@ -75,6 +77,9 @@ public class GameClearController : MonoBehaviour
 
     private void HandleGameClear()
     {
+        SoundManager.Instance.BGMChannel.Stop();
+        SoundManager.Instance.PlaySfx(GameClearClip);
+
         int finalScore = scoreSO ? scoreSO.Value : 0;
         bool isNewRecord = highScoreSO != null && highScoreSO.TrySave(finalScore);
         int highScore = highScoreSO != null ? highScoreSO.Value : finalScore;

@@ -8,13 +8,11 @@ public class SoundManager : MonoBehaviour
     private AudioSource[] sfxChannels;
     private int currentChannelIndex = 0;
 
-    private AudioSource BGMChannel;
+    public AudioSource BGMChannel;
 
     [Header("Audio Clips")]
     public AudioClip BasicBGMClip;
     public AudioClip UISoundClip;
-    public AudioClip GameOverClip;
-    public AudioClip GameClearClip;
     public AudioClip BossEntryClip;
 
     //ΩÃ±€≈Ê ∆–≈œ
