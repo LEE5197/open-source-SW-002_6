@@ -17,6 +17,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip GameClearClip;
     public AudioClip BossEntryClip;
 
+    private bool IsBGMOn = false;
+
     //ΩÃ±€≈Ê ∆–≈œ
     public static SoundManager Instance;
     private void Awake()
@@ -34,6 +36,12 @@ public class SoundManager : MonoBehaviour
         }
 
         if (BGMChannel == null) BGMChannel = GetComponent<AudioSource>();
+
+        if (IsBGMOn == false)
+        {
+            //AudioClip clip = ;
+            SoundManager.Instance.PlayBGM(SoundManager.Instance.BasicBGMClip);
+        }
     }
 
     public void PlayBGM(AudioClip clip)
