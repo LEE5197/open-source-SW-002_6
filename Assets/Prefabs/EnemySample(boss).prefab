@@ -405,6 +405,7 @@ MonoBehaviour:
   fireDelay: 0.5
   fireGap: 0.1
   BossBGMClip: {fileID: 8300000, guid: f3448d20b2bf2d34186024a743b5d8d8, type: 3}
+  gameClearEvent: {fileID: 11400000, guid: edd29cd033145964e93b6e86411fec9c, type: 2}
   bulletNum: 29
   fireForwardCount: 5
   fireShotBulletNum: 29

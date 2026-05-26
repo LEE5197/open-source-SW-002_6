@@ -79,6 +79,12 @@ public class GameManager : MonoBehaviour
         IsGameRunning = false;
         Pause();
     }
+    
+    public void NotifyGameClear() //°ÔÀÓ Å¬¸®¾î½Ã
+    {
+        IsGameRunning = false;
+        Pause();
+    }
 
     //?Œë ˆ?´ì–´ ì´ì•Œ ë¦¬ìŠ¤?¸ì— ì´ì•Œ ì¶”ê?
     private void AddPlayerBullet()

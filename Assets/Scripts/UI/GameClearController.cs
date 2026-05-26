@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameOverController : MonoBehaviour
+public class GameClearController : MonoBehaviour
 {
     [Header("Data")]
     [SerializeField] private ScoreSO scoreSO;
@@ -11,14 +11,14 @@ public class GameOverController : MonoBehaviour
     [SerializeField] private GameOverView view;
 
     [Header("Events")]
-    [SerializeField] private GameEvent gameOverEvent;
-    [Tooltip("RaiseÎêòÎ©¥ SO Îç∞Ïù¥ÌÑ∞ Î∞è GameManager ÏÉÅÌÉúÍ∞Ä Ï¥àÍ∏∞ÌôîÎê®.")]
+    [SerializeField] private GameEvent gameClearEvent;
+    [Tooltip("Raiseµ«∏È SO µ•¿Ã≈Õ π◊ GameManager ªÛ≈¬∞° √ ±‚»≠µ .")]
     [SerializeField] private GameEvent gameResetEvent;
 
     [Header("Scenes")]
     [SerializeField] private string mainMenuSceneName;
 
-    public AudioClip GameOverClip;
+    public AudioClip GameClearClip;
 
     private void Awake()
     {
@@ -26,22 +26,22 @@ public class GameOverController : MonoBehaviour
 
         if (!view)
         {
-            Debug.LogError("[GameOverController] view is not assigned", this);
+            Debug.LogError("[GameClearController] view is not assigned", this);
             valid = false;
         }
-        if (!gameOverEvent)
+        if (!gameClearEvent)
         {
-            Debug.LogError("[GameOverController] gameOverEvent is not assigned ‚Äî game over UI will never activate", this);
+            Debug.LogError("[GameClearController] gameClearEvent is not assigned ? game clear UI will never activate", this);
             valid = false;
         }
         if (!gameResetEvent)
         {
-            Debug.LogError("[GameOverController] gameResetEvent is not assigned ‚Äî GameManager will remain paused after restart/main menu", this);
+            Debug.LogError("[GameClearController] gameResetEvent is not assigned ? GameManager will remain paused after restart/main menu", this);
             valid = false;
         }
         if (!scoreSO)
         {
-            Debug.LogError("[GameOverController] scoreSO is not assigned ‚Äî final score will always display 0", this);
+            Debug.LogError("[GameClearController] scoreSO is not assigned ? final score will always display 0", this);
             valid = false;
         }
 
@@ -52,7 +52,7 @@ public class GameOverController : MonoBehaviour
     {
         if (!view) return;
 
-        if (gameOverEvent) gameOverEvent.RegisterListener(HandleGameOver);
+        if (gameClearEvent) gameClearEvent.RegisterListener(HandleGameOver);
 
         view.OnRestartClicked.AddListener(HandleRestart);
         view.OnMainMenuClicked.AddListener(HandleMainMenu);
@@ -63,23 +63,28 @@ public class GameOverController : MonoBehaviour
     {
         if (!view) return;
 
-        if (gameOverEvent) gameOverEvent.UnregisterListener(HandleGameOver);
+        if (gameClearEvent) gameClearEvent.UnregisterListener(HandleGameOver);
 
         view.OnRestartClicked.RemoveListener(HandleRestart);
         view.OnMainMenuClicked.RemoveListener(HandleMainMenu);
         view.OnQuitClicked.RemoveListener(HandleQuit);
     }
 
-    private void HandleGameOver()
+    private void HandleGameOver() //HandleGameClear∑Œ
+    {
+        HandleGameClear();
+    }
+
+    private void HandleGameClear()
     {
         SoundManager.Instance.BGMChannel.Stop();
-        SoundManager.Instance.PlaySfx(GameOverClip);
+        SoundManager.Instance.PlaySfx(GameClearClip);
 
         int finalScore = scoreSO ? scoreSO.Value : 0;
         bool isNewRecord = highScoreSO != null && highScoreSO.TrySave(finalScore);
         int highScore = highScoreSO != null ? highScoreSO.Value : finalScore;
         view.Show(finalScore, highScore, isNewRecord);
-        GameManager.Instance?.NotifyGameOver();
+        GameManager.Instance?.NotifyGameClear();
     }
 
     private void HandleRestart()

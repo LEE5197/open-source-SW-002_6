@@ -31,6 +31,8 @@ public class Boss : MonoBehaviour
     [Header("Audio Clips")]
     public AudioClip BossBGMClip;
 
+    [SerializeField] private GameEvent gameClearEvent;
+
     //일정 횟수 플레이어 방향으로 연속해서 발사
     [Space]
     [Header("Fire Forward")]
@@ -286,9 +288,16 @@ public class Boss : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         render.enabled = true;
     }
+
     private void Death()
     {
         scoreSO.AddScore(score);
+
+        if (gameClearEvent != null)
+        {
+            gameClearEvent.Raise();
+        }
+
         StopAllCoroutines();
         gameObject.SetActive(false);
     }
