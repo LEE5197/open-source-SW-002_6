@@ -27,6 +27,6 @@ public class StartMenuView : MonoBehaviour
 
     public void SetHighScore(int highScore)
     {
-        if (highScoreText) highScoreText.text = $"Best: {highScore}";
+        if (highScoreText) highScoreText.text = $"High Score: {highScore}";
     }
 }
