@@ -24,8 +24,6 @@ public class GameManager : MonoBehaviour
     private Queue<PlayerBullet> playerBullets;
     private Queue<EnemyBullet> enemyBullets;
 
-    private bool IsBGMOn = false;
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -47,12 +45,6 @@ public class GameManager : MonoBehaviour
 
         AddPlayerBullet();
         AddEnemyBullet();
-
-        if (IsBGMOn == false)
-        {
-            //AudioClip clip = ;
-            SoundManager.Instance.PlayBGM(SoundManager.Instance.BasicBGMClip);
-        }
     }
 
     private void OnDestroy()
