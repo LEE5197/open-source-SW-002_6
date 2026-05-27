@@ -550,7 +550,7 @@ MonoBehaviour:
   view: {fileID: 636861905}
   gameClearEvent: {fileID: 11400000, guid: edd29cd033145964e93b6e86411fec9c, type: 2}
   gameResetEvent: {fileID: 11400000, guid: 0558686de1e60e449a6ea8be6983bf59, type: 2}
-  mainMenuSceneName: 
+  mainMenuSceneName: MainMenuScene
   GameClearClip: {fileID: 8300000, guid: b743d2cfdf6b055488c5fbad4072dd78, type: 3}
 --- !u!1 &414399028
 GameObject:
