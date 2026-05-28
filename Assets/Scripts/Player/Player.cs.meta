@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7554a003bd11fe744b0345ec306ccbc5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - defaultBulletPrefab: {fileID: 5822080819344044643, guid: 26d1778c56e78ad4a99de9ac532a61fa, type: 3}
+  - healthSO: {fileID: 11400000, guid: e5c5dae3bfea3834f8f772b0a5c67ede, type: 2}
+  - scoreSO: {fileID: 11400000, guid: 8d21454ef42f4d740b0999213da3c4ce, type: 2}
+  - ultPrefabs: {fileID: 5409212601424524416, guid: 450530eb856377943b3585516e436b2d, type: 3}
+  - ultCount: {fileID: 11400000, guid: c795fe65f416f974c94418f0728fb249, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
