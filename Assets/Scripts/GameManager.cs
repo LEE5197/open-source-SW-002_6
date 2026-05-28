@@ -24,6 +24,12 @@ public class GameManager : MonoBehaviour
     private Queue<PlayerBullet> playerBullets;
     private Queue<EnemyBullet> enemyBullets;
 
+    [Header("CameraBorder")]
+    public GameObject top;
+    public GameObject bottom;
+    public GameObject left;
+    public GameObject right;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
