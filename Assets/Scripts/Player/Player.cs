@@ -77,6 +77,7 @@ public class Player : MonoBehaviour
         bullet.gameObject.SetActive(true);
         bullet.gameObject.transform.position = transform.position;
         bullet.moveVec = Vector2.up;
+        bullet.transform.up = Vector2.up;
 
         StartCoroutine(FireCoroutine());
     }

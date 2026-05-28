@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 
 public class SubWeapon : MonoBehaviour
 {
@@ -8,7 +9,8 @@ public class SubWeapon : MonoBehaviour
     [SerializeField] private Transform targetPos;
 	// 이동시키기 위한 변수
     private Rigidbody2D rigid;
-
+	// 바라보는 방향
+	private Vector2 lookVec = Vector2.up;
 
 	// 이동에 필요한 변수
 	public Vector2 offset;
@@ -43,12 +45,50 @@ public class SubWeapon : MonoBehaviour
 		{
 			Attack();
 		}
+		SetLookVec();
 	}
 	private void FixedUpdate()
 	{
 		Move();
 	}
+	// 적 방향을 향해 방향 전환
+	private void SetLookVec()
+	{
+		// 가장 가까운 적 위치를 담을 변수
+        Collider2D []enemies = Physics2D.OverlapCircleAll(transform.position, attackRange, enemyLayer);
+		Collider2D nearEnemy = null;
 
+		// 가장 가까운 적을 알아내기 위한 변수
+		float lowDist = Mathf.Infinity;
+
+		foreach(Collider2D it in enemies)
+		{	// 연산 부담을 줄이기 위해 sqrt 대신 sqrMagnitude 사용
+			float dist = (transform.position - it.transform.position).sqrMagnitude;
+
+			// 최소 거리가 현재 가리키는 적과의 거리보다 길다면 
+			// 최소 거리와 현재 가리키는 적 위치 업데이트
+			if (lowDist > dist)
+			{
+				nearEnemy = it;
+				lowDist = dist;
+			}
+		}
+
+		if (nearEnemy != null)
+			lookVec = (nearEnemy.gameObject.transform.position - transform.position).normalized;
+		else
+			lookVec = Vector2.up;
+
+        // 목표 방향 설정할 회전값 계산
+        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, lookVec);
+
+        // 일정한 속도로 회전
+        transform.rotation = Quaternion.RotateTowards(
+            transform.rotation,
+            targetRotation,
+            720f * Time.deltaTime
+        );
+    }
 	// 플레이어 위치 고려해서 가까우면 느리게, 멀면 빠르게 이동
 	private void Move()
 	{
@@ -74,16 +114,22 @@ public class SubWeapon : MonoBehaviour
 	private void Attack()
 	{
 		Collider2D enemy = Physics2D.OverlapCircle(transform.position, attackRange, enemyLayer);
-		if (enemy == null) return;
-
+		// 적이 없다면 바라보는 방향을 위로
+		if (enemy == null)
+		{
+			lookVec = Vector2.up;
+			return;
+		}
 		canAttack = false;
 
+		// 총알 오브젝트 폴에서 가져와서 발사
 		PlayerBullet bullet = GameManager.Instance.GetPlayerBullet();
 		bullet.gameObject.SetActive(true);
 		bullet.gameObject.transform.position = transform.position;
-		bullet.moveVec = (enemy.gameObject.transform.position - transform.position).normalized;
+		bullet.moveVec = lookVec;
+		bullet.transform.up = lookVec;
 
-		StartCoroutine(AttackCoroutine());
+        StartCoroutine(AttackCoroutine());
 	}
 	//공격 속도 체크에 사용할 변수 초기화 
 	IEnumerator AttackCoroutine()
