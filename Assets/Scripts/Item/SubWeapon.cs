@@ -25,8 +25,11 @@ public class SubWeapon : MonoBehaviour
 
 	private bool canAttack = true;
 
-	//이동에 필요한 Rigidbody2D 컴포넌트 할당, 플레이어 위치 참조
-	private void Awake()
+    [Header("Audio Clips")]
+    public AudioClip PlayerShootClip;
+
+    //이동에 필요한 Rigidbody2D 컴포넌트 할당, 플레이어 위치 참조
+    private void Awake()
 	{
         rigid = GetComponent<Rigidbody2D>();
 	}
@@ -122,8 +125,13 @@ public class SubWeapon : MonoBehaviour
 		}
 		canAttack = false;
 
-		// 총알 오브젝트 폴에서 가져와서 발사
-		PlayerBullet bullet = GameManager.Instance.GetPlayerBullet();
+        if (SoundManager.Instance != null) //효과음
+        {
+            SoundManager.Instance.PlaySfx(PlayerShootClip);
+        }
+
+        // 총알 오브젝트 폴에서 가져와서 발사
+        PlayerBullet bullet = GameManager.Instance.GetPlayerBullet();
 		bullet.gameObject.SetActive(true);
 		bullet.gameObject.transform.position = transform.position;
 		bullet.moveVec = lookVec;
