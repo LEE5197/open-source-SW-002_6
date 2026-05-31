@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 7293882460805498315}
   - component: {fileID: 8874754280969067568}
   - component: {fileID: 3388639544049068096}
-  - component: {fileID: 8741051108706691456}
+  - component: {fileID: 2770793677014234479}
   m_Layer: 7
   m_Name: EnemySample(boss)
   m_TagString: Enemy
@@ -339,7 +339,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -353,7 +353,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3, y: 2}
+  m_Size: {x: 3, y: 2.37}
   m_EdgeRadius: 0
 --- !u!50 &8874754280969067568
 Rigidbody2D:
@@ -402,7 +402,7 @@ MonoBehaviour:
   moveSpeed: 1
   minDistX: 0.2
   minDistY: 8
-  score: 100
+  score: 1000
   fireDelay: 0.5
   fireGap: 0.1
   BossBGMClip: {fileID: 8300000, guid: f3448d20b2bf2d34186024a743b5d8d8, type: 3}
@@ -416,7 +416,7 @@ MonoBehaviour:
   fireCircleBulletNum: 39
   fireCircleDelay: 1
   fireAroundCount: 5
---- !u!95 &8741051108706691456
+--- !u!95 &2770793677014234479
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -426,7 +426,7 @@ Animator:
   m_GameObject: {fileID: 2304103761219305430}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 668e6be8a8fd012459283b19350f8a3e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 04f0dc7df3c116045972d8917389ba8d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -585,7 +585,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -41.28, y: -16.77}
+  m_AnchoredPosition: {x: -41.55, y: -28.06}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8645163509104303554
