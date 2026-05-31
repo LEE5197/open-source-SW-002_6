@@ -46,16 +46,16 @@ public class Item : MonoBehaviour
 		// 경계선과 충돌하면 충돌 반대 방향으로 방향 전환
 		switch (collision.gameObject.name)
 		{
-			case "Border_UP":
+			case "top":
 				moveVec.y = -moveVec.y;
 				break;
-			case "Border_DOWN":
+			case "bottom":
 				moveVec.y = -moveVec.y;
 				break;
-			case "Border_LEFT":
+			case "left":
 				moveVec.x = -moveVec.x;
 				break;
-			case "Border_RIGHT":
+			case "right":
 				moveVec.x = -moveVec.x;
 				break;
 		}

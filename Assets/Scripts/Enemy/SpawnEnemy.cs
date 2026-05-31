@@ -15,7 +15,7 @@ public class SpawnEnemy : MonoBehaviour
 {
     public List<GameObject> EnemyPrefabList; //적 기체 종류
 
-    public float EnemySpawnDelay = 2f; //스폰 딜레이
+    public float EnemySpawnDelay = 2f; //스폰 딜레이 (3 초과 필수)
     public float spawnAngle = 15f;
     enum EnemyType { NORMAL, BIG, FAST } //적 타입
 
@@ -23,15 +23,24 @@ public class SpawnEnemy : MonoBehaviour
     private void Start()
     {
         StartCoroutine(Spawn());
+        StartCoroutine(SpawnBoss());
     }
 
+    private EnemyType previousEnemy = EnemyType.FAST;
     IEnumerator Spawn()
     {
         while (GameManager.Instance.IsGameRunning == true) //게임이 실행 중이면
         {
             yield return new WaitForSeconds(EnemySpawnDelay); //지연시간만큼 대기
+            if (EnemySpawnDelay > 1.5f)
+                EnemySpawnDelay -= 0.2f;
+            if (EnemySpawnDelay < 1.5f)
+                EnemySpawnDelay = 1f;
 
-            EnemyType enemyType = (EnemyType)Random.Range(0, 3);
+            EnemyType enemyType = (EnemyType)Random.Range(0, 3); //계속 다른걸로 뽑기
+            while (previousEnemy == enemyType)
+                enemyType = (EnemyType)Random.Range(0, 3);
+            previousEnemy = enemyType;
             //enemyType = EnemyType.BIG;        //디버그용
 
             Vector3 enemyVector;
@@ -40,7 +49,7 @@ public class SpawnEnemy : MonoBehaviour
             switch (enemyType)
             {
                 case EnemyType.NORMAL:
-                    enemyVector = new Vector3(((Random.Range(0, 2) * 2) - 1) * 9, Random.Range(-2, 2), 0);
+                    enemyVector = new Vector3(((Random.Range(0, 2) * 2) - 1) * GameManager.Instance.right.transform.position.x + 2f, Random.Range(-2, 2), 0);
 
                     angle = Random.Range(90f - spawnAngle / 2f, 90 + spawnAngle / 2f);
                     if (enemyVector.x < 0)
@@ -52,8 +61,8 @@ public class SpawnEnemy : MonoBehaviour
 
                     break;
                 case EnemyType.BIG:
-                    enemyVector = new Vector3(5f, 6f, 0);
-
+                    enemyVector = new Vector3(5f, GameManager.Instance.top.transform.position.y + 2f, 0);
+                    
                     angle = 180f;
 
                     Instantiate(EnemyPrefabList[(int)enemyType], enemyVector, Quaternion.Euler(0f, 0f, angle));
@@ -62,7 +71,7 @@ public class SpawnEnemy : MonoBehaviour
 
                     break;
                 case EnemyType.FAST:
-                    enemyVector = new Vector3(Random.Range(-8f, 8f), 5f, 0);
+                    enemyVector = new Vector3(Random.Range(-8f, 8f), GameManager.Instance.top.transform.position.y + 2f, 0);
 
                     angle = 180f;
 
@@ -70,6 +79,22 @@ public class SpawnEnemy : MonoBehaviour
 
                     break;
             }
+        }
+    }
+
+    [Header("Boss")]
+    private bool IsBossSpawned = false;
+    public GameObject Boss;
+    public float BossSpawnDelay = 60f;
+    IEnumerator SpawnBoss()
+    {
+        yield return new WaitForSeconds(BossSpawnDelay + EnemySpawnDelay);
+
+        StopCoroutine(Spawn());
+
+        if (IsBossSpawned == false)
+        {
+            Instantiate(Boss, new Vector3(0, GameManager.Instance.top.transform.position.y + 4f, 0), Quaternion.Euler(0f, 0f, 0f));
         }
     }
 }
