@@ -69,8 +69,6 @@ public class Enemy : MonoBehaviour
     {
         moveSpeed = 0;
 
-        SoundManager.Instance.PlaySfx(enemyExplosionClip);
-
         for (int i = 0; i < 2; i++)
         {
             spriteRenderer.enabled = false;
@@ -79,6 +77,8 @@ public class Enemy : MonoBehaviour
             spriteRenderer.enabled = true;
             yield return new WaitForSeconds(0.1f);
         }
+
+        SoundManager.Instance.PlaySfx(enemyExplosionClip);
 
         scoreSO.AddScore(score);
         Destroy(this.gameObject);

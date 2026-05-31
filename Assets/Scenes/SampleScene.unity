@@ -405,6 +405,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   attackRange: 10
+  PlayerShootClip: {fileID: 8300000, guid: 40713345297c92742b316c05e60279d5, type: 3}
 --- !u!50 &210960558
 Rigidbody2D:
   serializedVersion: 5
@@ -2015,6 +2016,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   attackRange: 10
+  PlayerShootClip: {fileID: 8300000, guid: 40713345297c92742b316c05e60279d5, type: 3}
 --- !u!50 &903523658
 Rigidbody2D:
   serializedVersion: 5
@@ -2756,6 +2758,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   attackRange: 10
+  PlayerShootClip: {fileID: 8300000, guid: 40713345297c92742b316c05e60279d5, type: 3}
 --- !u!50 &1278587926
 Rigidbody2D:
   serializedVersion: 5
@@ -3255,6 +3258,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   attackRange: 10
+  PlayerShootClip: {fileID: 8300000, guid: 40713345297c92742b316c05e60279d5, type: 3}
 --- !u!50 &1849659739
 Rigidbody2D:
   serializedVersion: 5
