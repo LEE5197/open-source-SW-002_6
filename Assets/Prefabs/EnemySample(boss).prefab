@@ -297,7 +297,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 2192450021786810173, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -398,7 +398,7 @@ MonoBehaviour:
   hpBar: {fileID: 8645163509104303554}
   playerTransform: {fileID: 0}
   isRage: 0
-  maxHealth: 1000
+  maxHealth: 10000
   moveSpeed: 1
   minDistX: 0.2
   minDistY: 8
@@ -409,7 +409,7 @@ MonoBehaviour:
   gameClearEvent: {fileID: 11400000, guid: edd29cd033145964e93b6e86411fec9c, type: 2}
   bulletNum: 29
   fireForwardCount: 5
-  fireShotBulletNum: 29
+  fireShotBulletNum: 19
   angle: 60
   fireSectorCount: 5
   fireRapidBulletNum: 99

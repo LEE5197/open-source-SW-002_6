@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     // 플레이어 오브젝트에서 총알을 발사하기 위한 변수
     private bool canFire = true;
     private bool isFire = false;
+    private float damage = 1f;
 
     // 총알 발사 딜레이 지정할 변수
     public float fireDelay = 0.2f;
@@ -34,12 +35,15 @@ public class Player : MonoBehaviour
     [Header("Audio Clips")]
     public AudioClip PlayerShootClip;
     public AudioClip PlayerUltClip;
+    public AudioClip PlayerHitClip;
 
-
+    private SpriteRenderer spriteRenderer;
+    private Coroutine hitRoutine;
     // 플레이어 오브젝트 생성 세팅
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         ultObject = Instantiate(ultPrefabs);
         ultObject.SetActive(false);
@@ -74,10 +78,12 @@ public class Player : MonoBehaviour
             SoundManager.Instance.PlaySfx(PlayerShootClip);
         }
 
+        bullet.damage = damage;
         bullet.gameObject.SetActive(true);
         bullet.gameObject.transform.position = transform.position;
         bullet.moveVec = Vector2.up;
         bullet.transform.up = Vector2.up;
+		Debug.Log($"current damage : {damage}");
 
         StartCoroutine(FireCoroutine());
     }
@@ -104,6 +110,9 @@ public class Player : MonoBehaviour
             }
                 healthSO.Damage((int)bullet);
 
+            if (hitRoutine == null)
+                hitRoutine = StartCoroutine(HitEffect());
+            
             return;
             // 충돌 확인용
             // Debug.Log($"damage {bullet}");
@@ -130,10 +139,10 @@ public class Player : MonoBehaviour
                     break;
 
                 case 15:    // 보조무기 추가 아이템
-                    Debug.Log("sub weapon item");
+                    //Debug.Log("sub weapon item");
                     if (subIdx < 4)
                     {
-                        Debug.Log(subWeaponList.Count);
+                        //Debug.Log(subWeaponList.Count);
                         subWeaponList[subIdx].SetActive(true);
                         subIdx++;
                     }
@@ -147,17 +156,8 @@ public class Player : MonoBehaviour
     
     void IncreaseBulletDamage(int weight)
 	{
-        /*
-        float updateDamage = 0f;
-        foreach(var it in defaultBulletList)
-		{
-            PlayerBullet tmp = it.GetComponent<PlayerBullet>();
-            tmp.damage += weight;
-            Debug.Log($"current bullet damage : { tmp.damage}");
-            if (updateDamage != 0f) updateDamage = tmp.damage;
-		}
-        defaultBulletPrefab.GetComponent<PlayerBullet>().damage = updateDamage;
-        */
+        if (damage > 100) return;
+        damage += weight;
     }
 
     // Input System 이용해서 플레이어 키 입력을 받기 위한 함수
@@ -191,4 +191,18 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(3f);
         ultObject.SetActive(false);
 	}
+
+    IEnumerator HitEffect()
+	{
+        SoundManager.Instance.PlaySfx(PlayerHitClip);
+        for (int i = 0; i < 2; i++)
+        {
+            spriteRenderer.enabled = false;
+            yield return new WaitForSeconds(0.1f);
+
+            spriteRenderer.enabled = true;
+            yield return new WaitForSeconds(0.1f);
+        }
+        hitRoutine = null;
+    }
 }

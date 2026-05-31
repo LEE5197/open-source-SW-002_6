@@ -1024,6 +1024,12 @@ MonoBehaviour:
   playerTransform: {fileID: 910352861}
   PlayerBulletPrefab: {fileID: 5822080819344044643, guid: 26d1778c56e78ad4a99de9ac532a61fa, type: 3}
   EnemyBulletPrefab: {fileID: 5231319819121834199, guid: 8ab286d5ef25b2a47af0b348e09cb57b, type: 3}
+  itemprefabList:
+  - {fileID: 7157083607112896715, guid: 58a1ebca5ffc90b4ca3ffeba2b0fed51, type: 3}
+  - {fileID: 2902694419653123738, guid: 59b0daadc2b3dcb40ac41b91fb0141ad, type: 3}
+  - {fileID: 3431545474714818712, guid: 6f290d0040663d448a76be4059bcabde, type: 3}
+  - {fileID: 9020713305493816966, guid: 93baf85024688ce4faca364abd947c61, type: 3}
+  - {fileID: 8596938164112508955, guid: 92b557821dc7c974d98be77b3b59da70, type: 3}
   top: {fileID: 4222705}
   bottom: {fileID: 1468073012}
   left: {fileID: 2117054148}
@@ -2318,6 +2324,7 @@ MonoBehaviour:
   - {fileID: 1278587924}
   PlayerShootClip: {fileID: 8300000, guid: 40713345297c92742b316c05e60279d5, type: 3}
   PlayerUltClip: {fileID: 8300000, guid: 083541c9a3f514549bff00685d5068e9, type: 3}
+  PlayerHitClip: {fileID: 8300000, guid: 80b23440084bb034f9591eae38915e59, type: 3}
 --- !u!61 &910352864
 BoxCollider2D:
   m_ObjectHideFlags: 0
