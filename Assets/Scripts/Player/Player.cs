@@ -187,7 +187,7 @@ public class Player : MonoBehaviour
         }
 
         ultObject.SetActive(true);
-        ultObject.transform.position = new Vector2(0, -7f);
+        ultObject.transform.position = transform.position;
         yield return new WaitForSeconds(3f);
         ultObject.SetActive(false);
 	}

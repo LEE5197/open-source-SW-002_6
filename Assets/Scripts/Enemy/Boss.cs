@@ -318,7 +318,7 @@ public class Boss : MonoBehaviour
         if (collision.gameObject.layer != 8) return;
 
         if (collision.gameObject.CompareTag("Ult"))
-            Health -= 500;
+            Health -= 100;
         else
             Health -= collision.gameObject.GetComponent<PlayerBullet>().damage;
     
