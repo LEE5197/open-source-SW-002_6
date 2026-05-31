@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.3, y: 3.21, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Item
   moveVec: {x: 0, y: 0}
   moveSpeed: 10
-  deleteTimer: 5
+  deleteTimer: 10
   ItemClip: {fileID: 8300000, guid: 7f4f81b389608c34c86e720efc613957, type: 3}
 --- !u!50 &8087976734079072624
 Rigidbody2D:

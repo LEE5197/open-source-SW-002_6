@@ -12,7 +12,7 @@ public class PlayerUlt : MonoBehaviour
     }
 	private void OnEnable()
 	{
-		Debug.Log("active ult");
+		//Debug.Log("active ult");
 		moveSpeed = 10f;
 		transform.localScale = new Vector3(1f, 1f, 1f);
 		StartCoroutine(ScaleRoutine());

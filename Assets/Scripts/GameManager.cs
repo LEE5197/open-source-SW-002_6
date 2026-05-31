@@ -19,10 +19,12 @@ public class GameManager : MonoBehaviour
     [Header("ObjectPool")]
     public GameObject PlayerBulletPrefab;
     public GameObject EnemyBulletPrefab;
+    public List<GameObject> itemprefabList;
 
     // ?§Î∏å?ùÌä∏ ??
     private Queue<PlayerBullet> playerBullets;
     private Queue<EnemyBullet> enemyBullets;
+    private List<GameObject> items;
 
     [Header("CameraBorder")]
     public GameObject top;
@@ -48,9 +50,11 @@ public class GameManager : MonoBehaviour
 
         playerBullets = new Queue<PlayerBullet>();
         enemyBullets = new Queue<EnemyBullet>();
+        items = new List<GameObject>();
 
         AddPlayerBullet();
         AddEnemyBullet();
+        AddItem();
     }
 
     private void OnDestroy()
@@ -151,4 +155,25 @@ public class GameManager : MonoBehaviour
         bullet.gameObject.SetActive(false);
         enemyBullets.Enqueue(bullet);
     }
+
+    private void AddItem()
+	{
+        for(int i = 0; i < itemprefabList.Count; i++)
+		{
+            GameObject item = Instantiate(itemprefabList[i], transform.position, Quaternion.identity, null);
+            item.SetActive(false);
+            items.Add(item);
+        }
+	}
+    public void GetItem(Vector2 pos)
+	{
+        int n = Random.Range(0, 10);
+        if (n > 2) return;
+
+        n = Random.Range(0, items.Count);
+        if (items[n].activeSelf) return;
+
+        items[n].transform.position = pos;
+        items[n].SetActive(true);
+	}
 }

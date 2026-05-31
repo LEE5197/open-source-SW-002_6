@@ -81,6 +81,8 @@ public class Enemy : MonoBehaviour
         SoundManager.Instance.PlaySfx(enemyExplosionClip);
 
         scoreSO.AddScore(score);
+        // 아이템 호출
+        GameManager.Instance.GetItem(transform.position);
         Destroy(this.gameObject);
     }
 
