@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -15,7 +16,6 @@ public class SoundManager : MonoBehaviour
     public AudioClip UISoundClip;
     public AudioClip BossEntryClip;
 
-    private bool IsBGMOn = false;
 
     //ΩÃ±€≈Ê ∆–≈œ
     public static SoundManager Instance;
@@ -34,12 +34,19 @@ public class SoundManager : MonoBehaviour
         }
 
         if (BGMChannel == null) BGMChannel = gameObject.AddComponent<AudioSource>();
+        
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        PlayBGM(BasicBGMClip);
+    }
 
-        if (IsBGMOn == false)
-        {
-            //AudioClip clip = ;
-            SoundManager.Instance.PlayBGM(SoundManager.Instance.BasicBGMClip);
-        }
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        PlayBGM(BasicBGMClip);
     }
 
     public void PlayBGM(AudioClip clip)
