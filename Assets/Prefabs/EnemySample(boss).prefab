@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 7293882460805498315}
   - component: {fileID: 8874754280969067568}
   - component: {fileID: 3388639544049068096}
+  - component: {fileID: 2770793677014234479}
   m_Layer: 7
   m_Name: EnemySample(boss)
   m_TagString: Enemy
@@ -296,10 +297,10 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 2192450021786810173, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -338,7 +339,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -346,13 +347,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 2.75, y: 2.75}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3, y: 2.37}
   m_EdgeRadius: 0
 --- !u!50 &8874754280969067568
 Rigidbody2D:
@@ -397,24 +398,46 @@ MonoBehaviour:
   hpBar: {fileID: 8645163509104303554}
   playerTransform: {fileID: 0}
   isRage: 0
-  maxHealth: 1000
+  maxHealth: 10000
   moveSpeed: 1
   minDistX: 0.2
-  minDistY: 10
-  score: 100
+  minDistY: 8
+  score: 1000
   fireDelay: 0.5
   fireGap: 0.1
   BossBGMClip: {fileID: 8300000, guid: f3448d20b2bf2d34186024a743b5d8d8, type: 3}
   gameClearEvent: {fileID: 11400000, guid: edd29cd033145964e93b6e86411fec9c, type: 2}
   bulletNum: 29
   fireForwardCount: 5
-  fireShotBulletNum: 29
+  fireShotBulletNum: 19
   angle: 60
   fireSectorCount: 5
   fireRapidBulletNum: 99
   fireCircleBulletNum: 39
   fireCircleDelay: 1
   fireAroundCount: 5
+--- !u!95 &2770793677014234479
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2304103761219305430}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 04f0dc7df3c116045972d8917389ba8d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7407012355843192892
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,7 +585,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -41.28, y: -16.77}
+  m_AnchoredPosition: {x: -41.55, y: -28.06}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8645163509104303554
