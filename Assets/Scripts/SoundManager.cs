@@ -33,7 +33,7 @@ public class SoundManager : MonoBehaviour
             sfxChannels[i].spatialBlend = 0f;
         }
 
-        if (BGMChannel == null) BGMChannel = GetComponent<AudioSource>();
+        if (BGMChannel == null) BGMChannel = gameObject.AddComponent<AudioSource>();
 
         if (IsBGMOn == false)
         {
@@ -77,6 +77,7 @@ public class SoundManager : MonoBehaviour
         // 순환 큐(Circular Queue) 방식으로 다음 채널을 선택해 재생
         AudioSource currentChannel = sfxChannels[currentChannelIndex];
         currentChannel.clip = clip;
+        currentChannel.loop = false;
         currentChannel.Play();
 
         // 인덱스를 넘겨서 다음 소리 준비 (오버플로우 방지)
