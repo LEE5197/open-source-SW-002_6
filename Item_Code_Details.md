@@ -6,6 +6,7 @@
 [GameManager](./GameManager_Code_details.md)<br/>
 [UI](./UI_Code_details.md)<br/>
 [README](./README.md)<br/>
+[Background](./Background_Code_details.md)<br/>
 ## Item.cs 상세 설명
 
 `Item.cs`는 게임 내에서 적을 처치하거나 특정 조건에서 드롭되는 아이템 오브젝트의 무작위 이동, 벽 충돌 시 이동 방향 변경, 획득 사운드 출력 및 자동 소멸 로직을 제어하는 클래스입니다.
@@ -50,7 +51,7 @@ private void OnEnable()
 }
 ~~~
 오브젝트 풀에서 아이템이 활성화 될 때마다 매번 실행되는 함수입니다.<br/>
-아이템이 생성되었을 때 사방으로 퍼지는 효과를 주기 위해 `Random.Range`를 활용하여 X축과 Y축 각각 `-1f`에서 `1f` 사이의 무작위 방향 벡터를 생성합니다. 이때 비스듬한 방향으로 갈 때 속도가 빨라지는 현상을 막기 위해 Vector 클래스의 `.normalized`를 통해 정규화한 뒤, 자동 소멸 코루틴인 **deleteObject()**를 작동시킵니다.
+아이템이 생성되었을 때 사방으로 퍼지는 효과를 주기 위해 `Random.Range`를 활용하여 X축과 Y축 각각 `-1f`에서 `1f` 사이의 무작위 방향 벡터를 생성합니다. 이때 비스듬한 방향으로 갈 때 속도가 빨라지는 현상을 막기 위해 Vector 클래스의 `.normalized`를 통해 정규화한 뒤, 자동 소멸 코루틴인 `deleteObject()` 를 작동시킵니다.
 
 <br/>
 
@@ -61,7 +62,7 @@ private void OnDisable()
 }
 ~~~
 플레이어가 아이템을 획득하거나 제한 시간이 지나 오브젝트가 비활성화 될 때 호출되는 함수입니다.<br/>
-오브젝트가 꺼진 상태에서 백그라운드로 코루틴이 계속 돌아가며 메모리를 낭비하거나 에러를 일으키지 않도록 **StopAllCoroutines()**를 통해 실행 중인 모든 코루틴을 중단합니다.
+오브젝트가 꺼진 상태에서 백그라운드로 코루틴이 계속 돌아가며 메모리를 낭비하거나 에러를 일으키지 않도록 `StopAllCoroutines()` 를 통해 실행 중인 모든 코루틴을 중단합니다.
 
 <br/>
 
@@ -128,7 +129,7 @@ IEnumerator deleteObject()
 
 ## SubWeapon.cs 상세 설명
 
-`SubWeapon.cs`는 플레이어 주변을 따라다니며 자동으로 주변의 적을 탐지하고 추적하여 공격하는 보조 무기의 움직임과 공격을 제어하는 클래스입니다.
+`SubWeapon.cs`는 플레이어 주변을 따라다니며 자동으로 주변의 적을 탐지하고 공격하는 보조 무기의 움직임과 공격을 제어하는 클래스입니다.
 
 ~~~csharp
 public class SubWeapon : MonoBehaviour
@@ -152,7 +153,7 @@ public class SubWeapon : MonoBehaviour
     public AudioClip PlayerShootClip;
 }
 ~~~
-SubWeapon.cs 클래스의 상단에서 초기화한 변수들로 플레이어를 추적하기 위한 위치 정보 `targetPos`, 물리 처리를 위한 컴포넌트 변수, 타겟을 바라보는 방향 벡터 `lookVec`를 선언합니다. 또한 플레이어와의 상대적 고정 위치를 잡기 위한 오프셋 `offset`, 부드러운 이동을 위한 속도 및 거리 상수를 정의합니다. 추가로 자동 타겟팅을 위한 레이어 마스크 `enemyLayer`, 공격 사거리 `attackRange`, 공격 가능 여부 판단할 플래그 `canAttack`와 효과음 에셋을 설정합니다.
+SubWeapon.cs 클래스의 상단에서 초기화한 변수들로 플레이어를 추적하기 위한 위치 정보 `targetPos`, 물리 처리를 위한 컴포넌트 변수, 타겟을 바라보는 방향 벡터 `lookVec`를 선언합니다. 또한 플레이어와의 상대적 고정 위치를 잡기 위한 오프셋 `offset`, 플레이어와 겹치지 않는 범위 내에서 이동을 위한 속도 및 거리 상수를 정의합니다. 추가로 자동 타겟팅을 위한 레이어 마스크 `enemyLayer`, 공격 사거리 `attackRange`, 공격 가능 여부 판단할 플래그 `canAttack`와 효과음 에셋을 설정합니다.
 
 <br/>
 
