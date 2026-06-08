@@ -8,6 +8,9 @@
 [README](./README.md)<br/>
 [Background](./Background_Code_details.md)<br/>
 
+라이센스<br/>
+[LICENCE](./LICENCE.md)<br/>
+
 유니티 6(Unity 6) 엔진을 기반으로 개발된 크로스 플랫폼 2D 아케이드 게임 프로젝트입니다.  
 다양한 오브젝트 및 에셋 병합을 통해 완성도를 높였습니다.
 
