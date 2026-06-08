@@ -6,6 +6,7 @@
 [GameManager](./GameManager_Code_details.md)<br/>
 [UI](./UI_Code_details.md)<br/>
 [README](./README.md)<br/>
+[Background](./Background_Code_details.md)<br/>
 
 플레이어 오브젝트와 직접적인 연관이 있는 C# 파일의 코드 상세 설명
 
@@ -127,7 +128,7 @@ private void Fire()
     StartCoroutine(FireCoroutine());
 }
 ~~~
-`GameManager.Instance`에서 `GetPlayerBullet()`을 호출하여 오브젝트 풀에서 총알을 가져옵니다. 총알이 정상적으로 로드되면 사운드를 재생하고, 현재 플레이어의 공격력(damage)을 총알 데미지에 적용한 뒤, 플레이어 위치에서 위쪽(Vector2.up)을 향해 발사되도록 세팅하고 `FireCoroutine()`을 호출하여, 앞서 공격 빈도를 조절하기 위해 사용한 Update()에서 사용된 `canFire` 변수를 false로 바꾸고, 일정 시간이 지난 후 true로 바꿔 공격 빈도를 조절합니다.
+`GameManager.Instance`에서 `GetPlayerBullet()`을 호출하여 오브젝트 풀에서 총알을 가져옵니다. 총알이 정상적으로 로드되면 사운드를 재생하고, 현재 플레이어의 공격력(damage)을 총알 데미지에 적용한 뒤, 플레이어 위치에서 위쪽(Vector2.up)을 향해 발사되도록 세팅하고 `FireCoroutine()`을 호출하여, 앞서 공격 빈도를 조절하기 위해 Update()에서 사용된 `canFire` 변수를 false로 바꾸고, 일정 시간이 지난 후 true로 바꿔 공격 빈도를 조절합니다.
 
 <br/>
 
@@ -201,7 +202,8 @@ private void OnTriggerEnter2D(Collider2D collision)
 
 BoxCollider2D 컴포넌트의 트리거 충돌 시스템을 활용하여 적의 공격 판정 및 아이템 처리를 일괄 수행합니다.<br/>
 적 탄환과 충돌할 경우, 적 탄환 종류에 따라 다른 종류의 컴포넌트를 받아와서 데미지를 초기화하고, 스크립터블 오브젝트를 통해 체력을 소모합니다.<br/>
-아이템과 충돌 시 아이템 오브젝트의 세부 레이어 번호(11~15)를 switch-case 문으로 판별하여 공격력 버프, 스코어 가산, 힐, 궁극기 충전, 그리고 최대 4개까지 장착 가능한 보조 무기(subWeaponList)를 활성화합니다.
+아이템과 충돌 시 아이템 오브젝트의 세부 레이어 번호(11~15)를 switch-case 문으로 판별하여 공격력 버프, 스코어 가산, 힐, 궁극기 충전, 그리고 최대 4개까지 장착 가능한 보조 무기(subWeaponList)를 활성화합니다. <br/>
+`EnemyBulletTypeB`의 경우, 초기 `EnemyBullet`의 작동 방식 상 보스 오브젝트에서 사용하는 것에 제한이 있어 임시로 만든 오브젝트로, `EnemyBullet` 오브젝트의 작동 방식을 변경하여 보스 오브젝트에서 사용하고 있기 때문에 현재 `EnemyBulletTypeB`은 사용하지 않습니다.
 
 <br/>
 
@@ -267,7 +269,7 @@ void OnUlt(InputValue value)
 
 먼저 총알 연사를 제어하기 위한 코루틴 'FireCoroutine()'은 탄환이 발사되는 `Fire()`에서 호출되며, `canFire`를 false로 차단하고, 지정된 딜레이 시간 `fireDelay` 동안 대기한 후 다시 true로 해제하여 일정한 공격 속도를 유지시킵니다.
 
-`ActiveUlt()`는 궁극기 사용 시 효과음을 재생하고, 궁극기 오브젝트를 활성화하여 플레이어 위치에 서 일반 총알과 동일하게 위쪽(Vector2.up) 방향으로 발사합니다. 정확히 3초 동안 활성화한 후, 다시 안전하게 비활성화(오브젝트 풀 수거)합니다.
+`ActiveUlt()`는 궁극기 사용 시 효과음을 재생하고, 궁극기 오브젝트를 활성화하여 플레이어 위치에 서 일반 총알과 동일하게 위쪽(Vector2.up) 방향으로 발사합니다. 3초 동안 활성화한 후, 다시 안전하게 비활성화(오브젝트 풀 수거)합니다.
 
 `HitEffect()`는 플레이어가 적 총알에 피격 시 피극 효과음을 재생하고, `Awake()`에서 SpriteRenderer 컴포넌트를 미리 할당받은 `SpriteRender`를 이용해 플레이어 오브젝트의 스프라이트를 활성화, 비활성화를 반복하여 총알에 피격되었음을 직관적으로 알려줍니다.
 <br/>
@@ -287,7 +289,7 @@ public class PlayerBullet : MonoBehaviour
     public Vector2 moveVec = Vector2.up;
 }
 ~~~
-PlayerBullet.cs 클래스의 상단에서 초기화한 변수들로 탄환의 물리 처리를 위한 컴포넌트 참조 변수, 이동 속도 상수를 선언합니다. 또한 플레이어의 아이템 획득 상태 등에 따라 가변적으로 적용될 수 있는 데미지 `damage` 변수와 탄환이 나아갈 기본 방향 벡터 `moveVec`를 설정합니다.
+PlayerBullet.cs 클래스의 상단에서 초기화한 변수들로 탄환의 물리 처리를 위한 컴포넌트 참조 변수, 이동 속도 상수를 선언합니다. 또한 플레이어의 아이템 획득 상태 등에 따라 가변적으로 적용될 수 있는 `damage` 변수와 탄환이 나아갈 기본 방향 벡터 `moveVec`를 설정합니다.
 
 <br/>
 

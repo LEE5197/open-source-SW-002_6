@@ -6,6 +6,7 @@
 [GameManager](./GameManager_Code_details.md)<br/>
 [UI](./UI_Code_details.md)<br/>
 [README](./README.md)<br/>
+[Background](./Background_Code_details.md)<br/>
 # HealthSO.cs 상세 설명
 
 `HealthSO.cs`는 게임 내 캐릭터(플레이어 또는 적)의 체력 데이터를 관리하는 **스크립터블 오브젝트(Scriptable Object)** 클래스입니다. 데이터의 범위를 제한하는 `ClampedIntVariableSO`를 상속받아 체력이 최소값과 최대값 사이를 벗어나지 않도록 보장하며, 체력이 0이 되는 사망 시점에 C# 이벤트와 유니티 게임 이벤트를 동시에 발생시켜 다른 시스템과의 의존도를 낮추도록 설계했습니다.
@@ -82,7 +83,7 @@ public class ScoreSO : ClampedIntVariableSO
     }
 }
 ```
-적 기체를 파괴하거나 아이템을 획득했을 때 외부 스크립트에서 호출하여 값을 변경하는 함수
+적 기체를 파괴하거나 아이템을 획득했을 때 외부 스크립트에서 호출하여 값을 변경하는 함수로 점수의 경우 감소하는 경우가 없으므로 증가 함수만 존재합니다.
 
 # HighScoreSO.cs 상세 설명
 
@@ -129,13 +130,13 @@ public class HighScoreSO : ScriptableObject
     }
 }
 ```
-게임 오버 또는 스테이지 클리어 시점에 획득한 새로운 점수(`score`)를 전달받아 최고 점수 갱신을 시도하는 핵심 함수입니다.
+게임 오버 또는 스테이지 클리어 시점에 획득한 새로운 점수(`score`)를 전달받아 최고 점수 갱신을 시도하는 함수입니다.
 
 매개변수로 들어온 점수가 현재 보관 중인 최고 점수(`Value`)보다 낮거나 같다면 기록 경신에 실패한 것이므로 아무런 작업 없이 `false`를 반환하고 즉시 종료합니다. 반대로 기존 기록을 넘어선 새로운 점수라면 값을 새 점수로 업데이트한 뒤, `PlayerPrefs`를 통해 로컬 스토리지에 값을 쓰고 `PlayerPrefs.Save()`로 디스크에 최종 영구 저장한 후 `true`를 반환합니다. 
 
 # UltCountSO.cs 상세 설명
 
-`UltCountSO.cs`는 게임 내 플레이어의 궁극기(Ultimate Ability) 사용 가능 횟수를 관리하는 **스크립터블 오브젝트(Scriptable Object)** 클래스입니다. 데이터의 범위를 제한하는 `ClampedIntVariableSO`를 상속받아 궁극기 개수가 정의된 최소값과 최대값 사이를 벗어나지 않도록 보장하며, 궁극기 소비 및 획득 로직을 안전하게 제어합니다.
+`UltCountSO.cs`는 게임 내 플레이어의 궁극기(Ultimate Ability) 사용 가능 횟수를 관리하는 **스크립터블 오브젝트(Scriptable Object)** 클래스입니다. 데이터의 범위를 제한하는 `ClampedIntVariableSO`를 상속받아 궁극기 개수가 정의된 최소값과 최대값 사이를 벗어나지 않도록 보장하며, 궁극기 소비 및 획득 로직을 제어합니다.
 
 
 ```csharp
@@ -180,4 +181,4 @@ public class UltCountSO : ClampedIntVariableSO
 ```
 게임 내에서 특정 게이지를 모두 채우거나, 보상 아이템을 획득했을 때 궁극기 사용 가능 횟수를 충전해 주는 메소드입니다.
 
-단순 누적 연산(`Value++`)을 수행하지만, 부모 클래스인 `ClampedIntVariableSO`의 자체 시스템이 존재하여 인스펙터에 지정된 최대 수치를 넘어가더라도 자동으로 최대 수치에 고정(Clamp)되므로 조건문을 통한 제약 없이 증량 연산을 수행할 수 있습니다.
+단순 누적 연산(`Value++`)을 수행하지만, 부모 클래스인 `ClampedIntVariableSO`의 자체 시스템이 존재하여 인스펙터에 지정된 최대 수치를 넘어가더라도 자동으로 최대 수치에 고정(Clamp)되므로 조건문을 통한 제약 없이 연산을 수행할 수 있습니다.
